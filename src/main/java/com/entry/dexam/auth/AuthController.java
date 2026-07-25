@@ -13,6 +13,6 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 	@GetMapping()
     public String sayHello() {
-        return "안녕하세요!";
+        return "여기는유건우가구현하면됨!";
     }
 }
