@@ -1,4 +1,4 @@
-package com.entry.dexam.auth;
+package com.entry.dexam.domain.auth;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
