@@ -1,4 +1,4 @@
-package com.entry.dexam.global;
+package com.entry.dexam.global.security;
 
 import java.io.IOException;
 
