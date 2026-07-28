@@ -21,6 +21,7 @@ public class TokenExchangerController {
             @RequestParam(value="code") String code
     ) {
         ExchangeToken exchangeToken = exchangeTokenRedisRepository.findByCode(code);
+        exchangeTokenRedisRepository.delete(exchangeToken);
 		return TokenExchangeResponse.builder().accessToken(
                 exchangeToken.getAccessToken()
         ).build();
