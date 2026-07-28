@@ -10,7 +10,9 @@ spring:
     url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?serverTimezone=Asia/Seoul&useSSL=false
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-
+  jpa:
+    hibernate:
+      ddl-auto: update
   security:
     oauth2:
       client:
@@ -18,3 +20,9 @@ spring:
           google:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - profile
+              - email
+jwt:
+  secret: ${JWT_SECRET}
+  access-expiration: ${JWT_EXPIRATION}
