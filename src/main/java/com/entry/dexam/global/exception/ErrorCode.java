@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
 	ERR_TEMPLATE(200, "에러 템플릿입니다."),
+	EXAM_RANGE_NOT_FOUND(404, "출제 범위를 찾을 수 없습니다."),
 
 	NOT_VALID_DTO_ERR(400, "유효하지 않은 요청입니다."),
 		

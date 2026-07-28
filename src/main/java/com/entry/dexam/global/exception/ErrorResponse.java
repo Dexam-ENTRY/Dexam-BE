@@ -1,7 +1,7 @@
 package com.entry.dexam.global.exception;
 
 public record ErrorResponse(
-	Boolean status,
+	Boolean success,
     Object error
 ) {
 	public static ErrorResponse errorCodeFrom(ErrorCode errorCode) {
@@ -25,7 +25,7 @@ public record ErrorResponse(
         );
     }
 
-    public static ErrorResponse errorCodeOf(Integer errorCode, String errorMsg) {
+    public static ErrorResponse errorCodeOf(String errorMsg) {
         return new ErrorResponse(
                 Boolean.FALSE,
                 errorMsg
