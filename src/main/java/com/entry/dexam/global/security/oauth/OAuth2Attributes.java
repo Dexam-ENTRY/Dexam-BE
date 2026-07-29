@@ -1,7 +1,7 @@
 package com.entry.dexam.global.security.oauth;
 
-import com.entry.dexam.domain.user.Role;
-import com.entry.dexam.domain.user.User;
+import com.entry.dexam.domain.auth.enums.Role;
+import com.entry.dexam.domain.auth.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 

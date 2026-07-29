@@ -1,7 +1,7 @@
 package com.entry.dexam.global.security.oauth;
 
-import com.entry.dexam.domain.user.User;
-import com.entry.dexam.domain.user.UserRepository;
+import com.entry.dexam.domain.auth.entity.User;
+import com.entry.dexam.domain.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

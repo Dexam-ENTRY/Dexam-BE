@@ -1,10 +1,14 @@
-package com.entry.dexam.domain.user;
+package com.entry.dexam.domain.auth.entity;
 
+import com.entry.dexam.domain.auth.enums.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -28,6 +32,17 @@ public class User {
 
     private String provider;
     private String providerId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "grade", referencedColumnName = "grade"),
+            @JoinColumn(name = "class_num", referencedColumnName = "class_num")
+    })
+    private ClassInfo classInfo;
+
+    @CreatedDate
+    @Column(updatable = false, nullable = false)
+    private LocalDateTime createdAt;
 
     @Builder
     public User(String email, String name, Role role, String provider, String providerId) {
