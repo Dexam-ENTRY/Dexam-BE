@@ -12,4 +12,9 @@ import lombok.NoArgsConstructor;
 public class ClassInfo {
     @EmbeddedId
     private ClassPk classPk;
+
+    public ClassInfo setClass(int grade, int classNum) {
+        this.classPk = new ClassPk(grade, classNum);
+        return this;
+    }
 }

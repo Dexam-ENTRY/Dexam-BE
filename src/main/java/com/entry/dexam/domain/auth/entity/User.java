@@ -35,8 +35,8 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumns({
-            @JoinColumn(name = "grade", referencedColumnName = "grade"),
-            @JoinColumn(name = "class_num", referencedColumnName = "class_num")
+            @JoinColumn(name = "grade", referencedColumnName = "grade", nullable = true),
+            @JoinColumn(name = "class_num", referencedColumnName = "class_num", nullable = true)
     })
     private ClassInfo classInfo;
 
@@ -51,10 +51,16 @@ public class User {
         this.role = role;
         this.provider = provider;
         this.providerId = providerId;
+        this.createdAt = LocalDateTime.now();
     }
 
     public User update(String name) {
         this.name = name;
+        return this;
+    }
+
+    public User setClass(ClassInfo classInfo) {
+        this.classInfo = classInfo;
         return this;
     }
 }
