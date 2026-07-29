@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.entry.dexam.global.exception.ErrorCode;
 import com.entry.dexam.global.exception.ErrorResponse;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

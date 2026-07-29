@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.entry.dexam.global.exception.exceptions.ExamRangeNotFoundException;
-
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -21,6 +19,7 @@ public class TokenExchangerController {
             @RequestParam(value="code") String code
     ) {
         ExchangeToken exchangeToken = exchangeTokenRedisRepository.findByCode(code);
+        exchangeTokenRedisRepository.delete(exchangeToken);
 		return TokenExchangeResponse.builder().accessToken(
                 exchangeToken.getAccessToken()
         ).build();
