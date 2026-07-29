@@ -1,34 +1,25 @@
 package com.entry.dexam.global.exception;
 
-public record ErrorResponse(
-	boolean success,
-    Object error
-) {
-	public static ErrorResponse errorCodeFrom(ErrorCode errorCode) {
-        return new ErrorResponse(
-                false,
-                errorCode.getErrorMessage()
-        );
-    }
-	
-	public static ErrorResponse errorCodeFrom(ErrorCode errorCode, String description) {
-        return new ErrorResponse(
-                false,
-                errorCode.getErrorMessage() + description
-        );
-    }
-	
-	public static ErrorResponse dtoErrorCodeFrom(Object mapObject) {
-        return new ErrorResponse(
-                false,
-                mapObject
-        );
-    }
+import java.util.List;
 
-    public static ErrorResponse errorCodeOf(String errorMsg) {
-        return new ErrorResponse(
+public record ErrorResponse<T>(
+	boolean success,
+    ErrorDTO<T> error
+) {
+	public static ErrorResponse<Void> errorCodeFrom(ErrorCode errorCode) {
+        ErrorDTO<Void> errorDTO = new ErrorDTO<>(errorCode.getErrorCode(), errorCode.getErrorMessage(), null);
+        return new ErrorResponse<>(
                 false,
-                errorMsg
+                errorDTO
+        );
+    }
+	
+	public static ErrorResponse<List<FieldErrorDto>> dtoErrorCodeFrom(List<FieldErrorDto> detail) {
+        ErrorCode errorCode = ErrorCode.NOT_VALID_DTO_ERR;
+        ErrorDTO<List<FieldErrorDto>> errorDTO = new ErrorDTO<>(errorCode.getErrorCode(), errorCode.getErrorMessage(), detail);
+        return new ErrorResponse<>(
+                false,
+                errorDTO
         );
     }
 }

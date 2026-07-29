@@ -1,5 +1,6 @@
 package com.entry.dexam.global.exception;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -15,36 +16,36 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ErrorResponse<List<FieldErrorDto>>> handleValidException(MethodArgumentNotValidException e) {
         ErrorCode errorCode = ErrorCode.NOT_VALID_DTO_ERR;
-        Map<String, String> errors = e.getBindingResult()
+        List<FieldErrorDto> details = e.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .collect(Collectors.toMap(
-                        FieldError::getField,
-                        FieldError::getDefaultMessage,
-                        (existing, replacement) -> existing
-                ));
+                .map(fieldError -> new FieldErrorDto(
+                        fieldError.getField(),
+                        fieldError.getDefaultMessage()
+                ))
+                .toList();
         
-        ErrorResponse response = ErrorResponse.dtoErrorCodeFrom(errors);
+        ErrorResponse<List<FieldErrorDto>> response = ErrorResponse.dtoErrorCodeFrom(details);
         return ResponseEntity
                 .status(errorCode.getStatusCode())
                 .body(response);
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
+    public ResponseEntity<ErrorResponse<Void>> handleBusinessException(BusinessException e) {
         ErrorCode errorCode = e.getErrorCode();
-        ErrorResponse response = ErrorResponse.errorCodeFrom(errorCode);
+        ErrorResponse<Void> response = ErrorResponse.errorCodeFrom(errorCode);
         return ResponseEntity
                 .status(errorCode.getStatusCode())
                 .body(response);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception e) {
+    public ResponseEntity<ErrorResponse<Void>> handleException(Exception e) {
         log.error("Unhandled exception: ", e);
-        ErrorResponse response = ErrorResponse.errorCodeFrom(ErrorCode.INTERNAL_SERVER_ERR);
+        ErrorResponse<Void> response = ErrorResponse.errorCodeFrom(ErrorCode.INTERNAL_SERVER_ERR);
         return ResponseEntity
                 .status(ErrorCode.INTERNAL_SERVER_ERR.getStatusCode())
                 .body(response);

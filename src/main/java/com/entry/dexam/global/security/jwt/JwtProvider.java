@@ -9,6 +9,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
@@ -16,14 +18,14 @@ import java.util.Date;
 @Component
 public class JwtProvider {
 
-    private final Key key;
+    private final SecretKey key;
     private final long accessTokenExpiration;
 
     public JwtProvider(
             @Value("${jwt.secret}") String secretKey,
             @Value("${jwt.access-expiration}") long accessTokenExpiration
     ) {
-        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
         this.accessTokenExpiration = accessTokenExpiration;
     }
 
@@ -53,7 +55,11 @@ public class JwtProvider {
     // 토큰 검증
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            Claims claims = Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
             return true;
         } catch (JwtException | IllegalArgumentException e) {
             return false;
@@ -61,6 +67,10 @@ public class JwtProvider {
     }
 
     private Claims parseClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }
