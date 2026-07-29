@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
                 ))
                 .toList();
         
-        ErrorResponse<List<FieldErrorDto>> response = ErrorResponse.dtoErrorCodeFrom(details);
+        ErrorResponse<List<FieldErrorDto>> response = ErrorResponse.from(details);
         return ResponseEntity
                 .status(errorCode.getStatusCode())
                 .body(response);
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponse<Void>> handleBusinessException(BusinessException e) {
         ErrorCode errorCode = e.getErrorCode();
-        ErrorResponse<Void> response = ErrorResponse.errorCodeFrom(errorCode);
+        ErrorResponse<Void> response = ErrorResponse.from(errorCode);
         return ResponseEntity
                 .status(errorCode.getStatusCode())
                 .body(response);
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse<Void>> handleException(Exception e) {
         log.error("Unhandled exception: ", e);
-        ErrorResponse<Void> response = ErrorResponse.errorCodeFrom(ErrorCode.INTERNAL_SERVER_ERR);
+        ErrorResponse<Void> response = ErrorResponse.from(ErrorCode.INTERNAL_SERVER_ERR);
         return ResponseEntity
                 .status(ErrorCode.INTERNAL_SERVER_ERR.getStatusCode())
                 .body(response);

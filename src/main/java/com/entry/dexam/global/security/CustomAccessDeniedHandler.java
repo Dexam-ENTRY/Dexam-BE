@@ -31,7 +31,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         ErrorResponse<Void> errorResponse =
-                ErrorResponse.errorCodeFrom(ErrorCode.FORBIDDEN);
+                ErrorResponse.from(ErrorCode.FORBIDDEN);
 
         response.getWriter().write(
                 objectMapper.writeValueAsString(errorResponse)
