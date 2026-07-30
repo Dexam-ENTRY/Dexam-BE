@@ -1,8 +1,11 @@
 package com.entry.dexam.global.security.jwt;
 
+import com.entry.dexam.domain.auth.repository.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,12 +24,16 @@ public class JwtProvider {
     private final SecretKey key;
     private final long accessTokenExpiration;
 
+    private final UserRepository userRepository;
+
     public JwtProvider(
             @Value("${jwt.secret}") String secretKey,
-            @Value("${jwt.access-expiration}") long accessTokenExpiration
+            @Value("${jwt.access-expiration}") long accessTokenExpiration,
+            UserRepository userRepository
     ) {
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
         this.accessTokenExpiration = accessTokenExpiration;
+        this.userRepository = userRepository;
     }
 
     // Access Token 생성

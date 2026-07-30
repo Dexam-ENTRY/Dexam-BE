@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
 
         .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/auth/class", "/api/auth/me").authenticated()
                 .requestMatchers("/api/auth/**", "/login/**", "/oauth2/**", "/api/auth/token").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()

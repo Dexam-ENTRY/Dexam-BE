@@ -1,5 +1,6 @@
 package com.entry.dexam.global.security.oauth.changer;
 
+import com.entry.dexam.global.exception.exceptions.TokenNotFoundException;
 import com.entry.dexam.global.security.oauth.changer.dto.TokenExchangeResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,8 +19,10 @@ public class TokenExchangerController {
     public TokenExchangeResponse getToken(
             @RequestParam(value="code") String code
     ) {
-        ExchangeToken exchangeToken = exchangeTokenRedisRepository.findByCode(code);
-        exchangeTokenRedisRepository.delete(exchangeToken);
+        ExchangeToken exchangeToken = exchangeTokenRedisRepository.consumeByCode(code);
+        if (exchangeToken == null) {
+            throw TokenNotFoundException.EXCEPTION;
+        }
 		return TokenExchangeResponse.builder().accessToken(
                 exchangeToken.getAccessToken()
         ).build();
