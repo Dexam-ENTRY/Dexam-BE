@@ -26,7 +26,6 @@ public class AuthController {
         @RequestBody @Valid SetClassRequest setClassRequest,
         @Parameter(hidden = true) @CurrentUserEmail String email
     ) {
-        System.out.println(email);
         authService.updateClass(setClassRequest, email);
 		return ApiResponse.ok();
     }
