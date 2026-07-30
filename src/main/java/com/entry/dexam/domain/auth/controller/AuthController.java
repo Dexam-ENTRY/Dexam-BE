@@ -2,9 +2,14 @@ package com.entry.dexam.domain.auth.controller;
 
 import com.entry.dexam.domain.auth.dto.MeResponse;
 import com.entry.dexam.domain.auth.dto.SetClassRequest;
+import com.entry.dexam.domain.auth.entity.User;
 import com.entry.dexam.domain.auth.service.AuthService;
+import com.entry.dexam.global.anotations.CurrentUser.CurrentUser;
 import com.entry.dexam.global.dto.ApiResponse;
+import io.swagger.v3.oas.annotations.Parameter;
+import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,22 +23,28 @@ public class AuthController {
 
 	@PatchMapping("/class")
     public ApiResponse<Void> updateClass(
-        @RequestBody SetClassRequest setClassRequest
+        @RequestBody @Valid SetClassRequest setClassRequest,
+        @Parameter(hidden = true) @CurrentUser User user
     ) {
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-        authService.updateClass(setClassRequest, email);
+        authService.updateClass(setClassRequest, user);
 		return ApiResponse.ok();
     }
 
     @GetMapping("/me")
-    public ApiResponse<MeResponse> me() {
-        Authentication authentication =
-                SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-
-        MeResponse meResponse = authService.getMe(email);
+    public ApiResponse<MeResponse> getMe(
+        Authentication authentication,
+        @Parameter(hidden = true) @CurrentUser User user
+    ) {
+        MeResponse meResponse = authService.getMe(user);
         return ApiResponse.ok(meResponse);
+    }
+
+    @DeleteMapping("/me")
+    public ApiResponse<Void> deleteMe(
+        Authentication authentication,
+        @Parameter(hidden = true) @CurrentUser User user
+    ) {
+        authService.deleteMe(user);
+        return ApiResponse.ok();
     }
 }
