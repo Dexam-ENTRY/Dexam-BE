@@ -54,10 +54,6 @@ public class JwtProvider {
     public Authentication getAuthentication(String token) {
         Claims claims = parseClaims(token);
         String role = claims.get("role", String.class);
-        String email = claims.getSubject();
-
-        userRepository.findByEmail(email)
-                .orElseThrow(() -> new BadCredentialsException("유저가 없습니다."));
 
         User principal = new User(claims.getSubject(), "", Collections.singleton(new SimpleGrantedAuthority(role)));
         return new UsernamePasswordAuthenticationToken(principal, token, principal.getAuthorities());
