@@ -19,11 +19,10 @@ public class TokenExchangerController {
     public TokenExchangeResponse getToken(
             @RequestParam(value="code") String code
     ) {
-        ExchangeToken exchangeToken = exchangeTokenRedisRepository.findByCode(code);
+        ExchangeToken exchangeToken = exchangeTokenRedisRepository.consumeByCode(code);
         if (exchangeToken == null) {
             throw TokenNotFoundException.EXCEPTION;
         }
-        exchangeTokenRedisRepository.delete(exchangeToken);
 		return TokenExchangeResponse.builder().accessToken(
                 exchangeToken.getAccessToken()
         ).build();
