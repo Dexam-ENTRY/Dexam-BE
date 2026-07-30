@@ -72,6 +72,10 @@ public class ExchangeTokenRedisRepositoryImpl
             return null;
         }
 
+        if (accessToken == null) {
+            return null;
+        }
+
         return ExchangeToken.builder()
                 .code(code)
                 .accessToken(accessToken)
