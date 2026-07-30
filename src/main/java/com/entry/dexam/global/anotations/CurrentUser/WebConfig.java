@@ -9,9 +9,9 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private final CurrentUserArgumentResolver resolver;
+    private final CurrentUserEmailArgumentResolver resolver;
 
-    public WebConfig(CurrentUserArgumentResolver resolver) {
+    public WebConfig(CurrentUserEmailArgumentResolver resolver) {
         this.resolver = resolver;
     }
 

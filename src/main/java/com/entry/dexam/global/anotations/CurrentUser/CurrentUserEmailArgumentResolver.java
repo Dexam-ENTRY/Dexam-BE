@@ -15,15 +15,15 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
 @RequiredArgsConstructor
-public class CurrentUserArgumentResolver
+public class CurrentUserEmailArgumentResolver
         implements HandlerMethodArgumentResolver {
 
     private final UserRepository userRepository;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(CurrentUser.class)
-                && parameter.getParameterType().equals(User.class);
+        return parameter.hasParameterAnnotation(CurrentUserEmail.class)
+                && parameter.getParameterType().equals(String.class);
     }
 
     @Override
@@ -37,9 +37,6 @@ public class CurrentUserArgumentResolver
                 SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-
-        return user;
+        return email;
     }
 }

@@ -11,10 +11,10 @@ import lombok.NoArgsConstructor;
 @Table(name = "class")
 public class ClassInfo {
     @EmbeddedId
-    private ClassPk classPk;
+    private ClassId classId;
 
     public ClassInfo setClass(int grade, int classNum) {
-        this.classPk = new ClassPk(grade, classNum);
+        this.classId = new ClassId(grade, classNum);
         return this;
     }
 }

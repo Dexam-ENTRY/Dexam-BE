@@ -13,7 +13,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class ClassPk implements Serializable {
+public class ClassId implements Serializable {
 
     @Column(name = "grade")
     private int grade;
@@ -24,9 +24,9 @@ public class ClassPk implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ClassPk classPk)) return false;
-        return grade == classPk.grade &&
-                classNum == classPk.classNum;
+        if (!(o instanceof ClassId classId)) return false;
+        return grade == classId.grade &&
+                classNum == classId.classNum;
     }
 
     @Override

@@ -4,7 +4,7 @@ import com.entry.dexam.domain.auth.dto.MeResponse;
 import com.entry.dexam.domain.auth.dto.SetClassRequest;
 import com.entry.dexam.domain.auth.entity.User;
 import com.entry.dexam.domain.auth.service.AuthService;
-import com.entry.dexam.global.anotations.CurrentUser.CurrentUser;
+import com.entry.dexam.global.anotations.CurrentUser.CurrentUserEmail;
 import com.entry.dexam.global.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
@@ -24,27 +24,26 @@ public class AuthController {
 	@PatchMapping("/class")
     public ApiResponse<Void> updateClass(
         @RequestBody @Valid SetClassRequest setClassRequest,
-        @Parameter(hidden = true) @CurrentUser User user
+        @Parameter(hidden = true) @CurrentUserEmail String email
     ) {
-        authService.updateClass(setClassRequest, user);
+        System.out.println(email);
+        authService.updateClass(setClassRequest, email);
 		return ApiResponse.ok();
     }
 
     @GetMapping("/me")
     public ApiResponse<MeResponse> getMe(
-        Authentication authentication,
-        @Parameter(hidden = true) @CurrentUser User user
+        @Parameter(hidden = true) @CurrentUserEmail String email
     ) {
-        MeResponse meResponse = authService.getMe(user);
+        MeResponse meResponse = authService.getMe(email);
         return ApiResponse.ok(meResponse);
     }
 
     @DeleteMapping("/me")
     public ApiResponse<Void> deleteMe(
-        Authentication authentication,
-        @Parameter(hidden = true) @CurrentUser User user
+        @Parameter(hidden = true) @CurrentUserEmail String email
     ) {
-        authService.deleteMe(user);
+        authService.deleteMe(email);
         return ApiResponse.ok();
     }
 }

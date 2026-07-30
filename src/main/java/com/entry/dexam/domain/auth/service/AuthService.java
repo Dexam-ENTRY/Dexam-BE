@@ -4,7 +4,7 @@ import com.entry.dexam.domain.auth.dto.ClassInfoDto;
 import com.entry.dexam.domain.auth.dto.MeResponse;
 import com.entry.dexam.domain.auth.dto.SetClassRequest;
 import com.entry.dexam.domain.auth.entity.ClassInfo;
-import com.entry.dexam.domain.auth.entity.ClassPk;
+import com.entry.dexam.domain.auth.entity.ClassId;
 import com.entry.dexam.domain.auth.entity.User;
 import com.entry.dexam.domain.auth.repository.ClassInfoRepository;
 import com.entry.dexam.domain.auth.repository.UserRepository;
@@ -22,29 +22,31 @@ public class AuthService {
     private final ClassInfoRepository classInfoRepository;
 
     @Transactional
-    public void updateClass(SetClassRequest dto, User user) {
-        ClassPk classPk = new ClassPk(
+    public void updateClass(SetClassRequest dto, String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+        ClassId classId = new ClassId(
                 dto.grade(), dto.classNum()
         );
 
-        ClassInfo classInfo = classInfoRepository.findById(classPk)
+        ClassInfo classInfo = classInfoRepository.findById(classId)
                 .orElseThrow(() -> ClassNotFoundException.EXCEPTION);
 
         user.setClass(classInfo);
     }
 
-    public MeResponse getMe(User user) {
-//        User user = userRepository.findByEmailWithClassInfo(email)
-//                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+    public MeResponse getMe(String email) {
+        User user = userRepository.findByEmailWithClassInfo(email)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         ClassInfoDto classInfoDto = null;
 
         ClassInfo classInfo = user.getClassInfo();
         if (classInfo != null) {
-            ClassPk classPk = classInfo.getClassPk();
+            ClassId classId = classInfo.getClassId();
             classInfoDto = new ClassInfoDto(
-                    classPk.getGrade(),
-                    classPk.getClassNum()
+                    classId.getGrade(),
+                    classId.getClassNum()
             );
         }
 
@@ -58,7 +60,10 @@ public class AuthService {
     }
 
     @Transactional
-    public void deleteMe(User user) {
+    public void deleteMe(String email) {
+        User user = userRepository.findByEmailWithClassInfo(email)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
         userRepository.delete(user);
     }
 }
