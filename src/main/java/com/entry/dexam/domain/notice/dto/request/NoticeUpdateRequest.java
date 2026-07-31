@@ -1,10 +1,10 @@
-package com.entry.dexam.domain.announcement.dto.request;
+package com.entry.dexam.domain.notice.dto.request;
 
-import com.entry.dexam.domain.announcement.enums.Target;
+import com.entry.dexam.domain.notice.enums.Target;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record AnnouncementCreateRequest(
+public record NoticeUpdateRequest(
 
         @NotBlank(message = "제목을 입력해주세요.")
         String title,

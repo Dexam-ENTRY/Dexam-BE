@@ -1,6 +1,6 @@
-package com.entry.dexam.domain.announcement.entity;
+package com.entry.dexam.domain.notice.entity;
 
-import com.entry.dexam.domain.announcement.enums.Target;
+import com.entry.dexam.domain.notice.enums.Target;
 import com.entry.dexam.domain.auth.entity.ClassInfo;
 import com.entry.dexam.domain.auth.entity.User;
 import jakarta.persistence.*;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "announcements")
-public class Announcement {
+public class Notice {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,7 +45,7 @@ public class Announcement {
     private LocalDateTime createdAt;
 
     @Builder
-    public Announcement(User user, ClassInfo classInfo, String title, String content){
+    public Notice(User user, ClassInfo classInfo, String title, String content){
         this.user = user;
         this.classInfo = classInfo;
         this.title = title;

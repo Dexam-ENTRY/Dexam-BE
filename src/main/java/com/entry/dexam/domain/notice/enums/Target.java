@@ -1,4 +1,4 @@
-package com.entry.dexam.domain.announcement.enums;
+package com.entry.dexam.domain.notice.enums;
 
 import lombok.Getter;
 
