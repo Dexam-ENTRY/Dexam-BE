@@ -27,6 +27,15 @@ public class EvaluationController {
         return ApiResponse.ok(evaluationIdResponse);
     }
 
+    @DeleteMapping("/{id}")
+    public ApiResponse<Void> deleteEvaluation(
+            @PathVariable Long id,
+            @Parameter(hidden = true) @CurrentUserEmail String email
+    ) {
+        evaluationService.deleteEvaluation(email, id);
+        return ApiResponse.ok();
+    }
+
     @PatchMapping("/{id}")
     public ApiResponse<EvaluationIdResponse> patchEvaluation(
         @PathVariable Long id,

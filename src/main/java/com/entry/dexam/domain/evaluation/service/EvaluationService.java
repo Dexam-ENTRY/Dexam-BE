@@ -82,4 +82,22 @@ public class EvaluationService {
 
         return new EvaluationIdResponse(evaluation.getId());
     }
+
+    @Transactional
+    public void deleteEvaluation(String email, Long id) {
+        User user = userRepository.findByEmailWithClassInfo(email)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        Evaluation evaluation = evaluationRepository.findById(id)
+                .orElseThrow(() -> EvaluationNotFoundException.EXCEPTION);
+
+        int grade = evaluation.getClassInfo().getClassId().getGrade();
+        int classNum = evaluation.getClassInfo().getClassId().getClassNum();
+
+        if (!checkClassPermission(user, grade, classNum)) {
+            throw ForbiddenException.EXCEPTION;
+        }
+
+        evaluationRepository.delete(evaluation);
+    }
 }
