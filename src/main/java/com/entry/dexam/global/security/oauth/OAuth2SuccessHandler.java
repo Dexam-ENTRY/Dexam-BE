@@ -57,13 +57,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             String targetUrl = callbackUrl + "?code=" + code;
             getRedirectStrategy().sendRedirect(request, response, targetUrl);
         } catch (UsernameNotFoundException e) {
-            log.error("OAuth2 user not found: ", e);
             ErrorResponse<Void> errorResponse = ErrorResponse.from(ErrorCode.USER_NOT_FOUND);
             response.setStatus(ErrorCode.USER_NOT_FOUND.getStatusCode());
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(errorResponse));
         } catch (Exception e) {
-            log.error("OAuth2 success handler error: ", e);
             ErrorResponse<Void> errorResponse = ErrorResponse.from(ErrorCode.INTERNAL_SERVER_ERR);
             response.setStatus(ErrorCode.INTERNAL_SERVER_ERR.getStatusCode());
             response.setContentType("application/json;charset=UTF-8");
