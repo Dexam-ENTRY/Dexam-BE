@@ -1,4 +1,4 @@
-package com.entry.dexam.global.anotations.CurrentUser;
+package com.entry.dexam.global.anotations.CurrentUserEmail;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

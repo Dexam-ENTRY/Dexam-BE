@@ -2,15 +2,11 @@ package com.entry.dexam.domain.auth.controller;
 
 import com.entry.dexam.domain.auth.dto.MeResponse;
 import com.entry.dexam.domain.auth.dto.SetClassRequest;
-import com.entry.dexam.domain.auth.entity.User;
 import com.entry.dexam.domain.auth.service.AuthService;
-import com.entry.dexam.global.anotations.CurrentUser.CurrentUserEmail;
+import com.entry.dexam.global.anotations.CurrentUserEmail.CurrentUserEmail;
 import com.entry.dexam.global.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;

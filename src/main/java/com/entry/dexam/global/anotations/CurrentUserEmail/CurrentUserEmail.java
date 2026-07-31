@@ -1,4 +1,4 @@
-package com.entry.dexam.global.anotations.CurrentUser;
+package com.entry.dexam.global.anotations.CurrentUserEmail;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

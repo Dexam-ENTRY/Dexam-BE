@@ -1,8 +1,6 @@
-package com.entry.dexam.global.anotations.CurrentUser;
+package com.entry.dexam.global.anotations.CurrentUserEmail;
 
-import com.entry.dexam.domain.auth.entity.User;
 import com.entry.dexam.domain.auth.repository.UserRepository;
-import com.entry.dexam.global.exception.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
