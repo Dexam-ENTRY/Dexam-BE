@@ -1,7 +1,7 @@
 package com.entry.dexam.domain.auth.controller;
 
 import com.entry.dexam.domain.auth.dto.MeResponse;
-import com.entry.dexam.domain.auth.dto.SetClassRequest;
+import com.entry.dexam.domain.auth.dto.ClassRequest;
 import com.entry.dexam.domain.auth.service.AuthService;
 import com.entry.dexam.global.anotations.CurrentUserEmail.CurrentUserEmail;
 import com.entry.dexam.global.dto.ApiResponse;
@@ -19,10 +19,10 @@ public class AuthController {
 
 	@PatchMapping("/class")
     public ApiResponse<Void> updateClass(
-        @RequestBody @Valid SetClassRequest setClassRequest,
+        @RequestBody @Valid ClassRequest classRequest,
         @Parameter(hidden = true) @CurrentUserEmail String email
     ) {
-        authService.updateClass(setClassRequest, email);
+        authService.updateClass(classRequest, email);
 		return ApiResponse.ok();
     }
 

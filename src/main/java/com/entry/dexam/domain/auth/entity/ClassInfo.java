@@ -17,4 +17,8 @@ public class ClassInfo {
         this.classId = new ClassId(grade, classNum);
         return this;
     }
+
+    public ClassInfo(int grade, int classNum) {
+        this.classId = new ClassId(grade, classNum);
+    }
 }

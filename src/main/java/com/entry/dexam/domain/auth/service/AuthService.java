@@ -2,7 +2,7 @@ package com.entry.dexam.domain.auth.service;
 
 import com.entry.dexam.domain.auth.dto.ClassInfoDto;
 import com.entry.dexam.domain.auth.dto.MeResponse;
-import com.entry.dexam.domain.auth.dto.SetClassRequest;
+import com.entry.dexam.domain.auth.dto.ClassRequest;
 import com.entry.dexam.domain.auth.entity.ClassInfo;
 import com.entry.dexam.domain.auth.entity.ClassId;
 import com.entry.dexam.domain.auth.entity.User;
@@ -22,7 +22,7 @@ public class AuthService {
     private final ClassInfoRepository classInfoRepository;
 
     @Transactional
-    public void updateClass(SetClassRequest dto, String email) {
+    public void updateClass(ClassRequest dto, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
         ClassId classId = new ClassId(

@@ -4,9 +4,9 @@ import com.entry.dexam.domain.auth.entity.ClassInfo;
 import com.entry.dexam.domain.auth.entity.User;
 import com.entry.dexam.domain.evaluation.enums.EvaluationType;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,7 +14,10 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Table(name = "evaluations")
+@EntityListeners(AuditingEntityListener.class)
+@Builder
 public class Evaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +34,10 @@ public class Evaluation {
     })
     private ClassInfo classInfo;
 
+    @Column(length = 100)
     private String title;
 
+    @Column(length = 1000)
     private String content;
 
     private LocalDate date;
@@ -43,5 +48,7 @@ public class Evaluation {
     @JoinColumn(nullable = true)
     private User lastModifiedUser;
 
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
     private LocalDateTime created_at;
 }

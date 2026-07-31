@@ -1,5 +1,7 @@
 package com.entry.dexam.global.security.oauth;
 
+import com.entry.dexam.domain.auth.entity.User;
+import com.entry.dexam.domain.auth.repository.UserRepository;
 import com.entry.dexam.global.security.jwt.JwtProvider;
 import com.entry.dexam.global.security.oauth.changer.ExchangeToken;
 import com.entry.dexam.global.security.oauth.changer.ExchangeTokenRedisRepository;
@@ -11,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -24,6 +28,7 @@ import java.io.IOException;
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtProvider jwtProvider;
+    private final UserRepository userRepository;
     private final ExchangeTokenRedisRepository exchangeTokenRedisRepository;
 
     @Value("${frontend.oauth-callback-url}")
@@ -35,7 +40,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
             String email = (String) oAuth2User.getAttributes().get("email");
 
-            String accessToken = jwtProvider.createAccessToken(email, "ROLE_USER");
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
+
+            String accessToken = jwtProvider.createAccessToken(email, user.getRole().getKey());
 
             String code = RandomStringUtils.randomAlphanumeric(6);
             exchangeTokenRedisRepository.save(
