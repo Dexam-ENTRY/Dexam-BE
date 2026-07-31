@@ -28,10 +28,10 @@ public class Evaluation {
     @JoinColumn(name = "author_id")
     private User author;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
-            @JoinColumn(name = "grade", referencedColumnName = "grade", nullable = true),
-            @JoinColumn(name = "class_num", referencedColumnName = "class_num", nullable = true)
+            @JoinColumn(name = "grade", referencedColumnName = "grade", nullable = false),
+            @JoinColumn(name = "class_num", referencedColumnName = "class_num", nullable = false)
     })
     private ClassInfo classInfo;
 
