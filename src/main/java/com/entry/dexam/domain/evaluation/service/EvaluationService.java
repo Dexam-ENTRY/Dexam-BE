@@ -41,6 +41,11 @@ public class EvaluationService {
         User user = userRepository.findByEmailWithClassInfo(email)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
+        ClassInfo classInfo = user.getClassInfo();
+        if (classInfo == null) {
+            throw ForbiddenException.EXCEPTION;
+        }
+
         LocalDate start = date.atDay(1);
         LocalDate end = date.plusMonths(1).atDay(1);
 
