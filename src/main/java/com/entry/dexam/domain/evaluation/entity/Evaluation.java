@@ -43,6 +43,7 @@ public class Evaluation {
 
     private LocalDate date;
 
+    @Enumerated(EnumType.STRING)
     private EvaluationType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
