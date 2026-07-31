@@ -79,7 +79,7 @@ public class EvaluationService {
             throw ForbiddenException.EXCEPTION;
         }
 
-        ClassInfo classInfo = new ClassInfo(grade, classNum);
+        ClassInfo classInfo = user.getClassInfo();
 
         Evaluation evaluation = Evaluation.builder()
                 .author(user)
