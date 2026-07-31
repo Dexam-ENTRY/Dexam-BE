@@ -2,6 +2,7 @@ package com.entry.dexam.domain.evaluation.entity;
 
 import com.entry.dexam.domain.auth.entity.ClassInfo;
 import com.entry.dexam.domain.auth.entity.User;
+import com.entry.dexam.domain.evaluation.dto.EvaluationPatchRequest;
 import com.entry.dexam.domain.evaluation.enums.EvaluationType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -51,4 +52,24 @@ public class Evaluation {
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime created_at;
+
+    public void update(EvaluationPatchRequest request, User user) {
+        if (request.type() != null) {
+            this.type = request.type();
+        }
+
+        if (request.title() != null && !request.title().isBlank()) {
+            this.title = request.title();
+        }
+
+        if (request.content() != null && !request.content().isBlank()) {
+            this.content = request.content();
+        }
+
+        if (request.date() != null) {
+            this.date = request.date();
+        }
+
+        this.lastModifiedUser = user;
+    }
 }

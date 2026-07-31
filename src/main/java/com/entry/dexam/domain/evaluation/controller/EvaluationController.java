@@ -2,6 +2,7 @@ package com.entry.dexam.domain.evaluation.controller;
 
 import com.entry.dexam.domain.evaluation.dto.EvaluationAddRequest;
 import com.entry.dexam.domain.evaluation.dto.EvaluationIdResponse;
+import com.entry.dexam.domain.evaluation.dto.EvaluationPatchRequest;
 import com.entry.dexam.domain.evaluation.service.EvaluationService;
 import com.entry.dexam.global.anotations.CurrentUserEmail.CurrentUserEmail;
 import com.entry.dexam.global.dto.ApiResponse;
@@ -23,6 +24,16 @@ public class EvaluationController {
         @Parameter(hidden = true) @CurrentUserEmail String email
     ) {
         EvaluationIdResponse evaluationIdResponse = evaluationService.addEvaluation(evaluationAddRequest, email);
+        return ApiResponse.ok(evaluationIdResponse);
+    }
+
+    @PatchMapping("/{id}")
+    public ApiResponse<EvaluationIdResponse> patchEvaluation(
+        @PathVariable Long id,
+        @RequestBody @Valid EvaluationPatchRequest evaluationPatchRequest,
+        @Parameter(hidden = true) @CurrentUserEmail String email
+    ) {
+        EvaluationIdResponse evaluationIdResponse = evaluationService.patchEvaluation(evaluationPatchRequest, email, id);
         return ApiResponse.ok(evaluationIdResponse);
     }
 }

@@ -1,16 +1,15 @@
 package com.entry.dexam.domain.evaluation.service;
 
-import com.entry.dexam.domain.auth.dto.ClassInfoDto;
-import com.entry.dexam.domain.auth.dto.ClassRequest;
 import com.entry.dexam.domain.auth.entity.ClassId;
 import com.entry.dexam.domain.auth.entity.ClassInfo;
 import com.entry.dexam.domain.auth.entity.User;
 import com.entry.dexam.domain.auth.repository.UserRepository;
 import com.entry.dexam.domain.evaluation.dto.EvaluationAddRequest;
 import com.entry.dexam.domain.evaluation.dto.EvaluationIdResponse;
+import com.entry.dexam.domain.evaluation.dto.EvaluationPatchRequest;
 import com.entry.dexam.domain.evaluation.entity.Evaluation;
 import com.entry.dexam.domain.evaluation.repository.EvaluationRepository;
-import com.entry.dexam.global.exception.exceptions.ClassNotFoundException;
+import com.entry.dexam.global.exception.exceptions.EvaluationNotFoundException;
 import com.entry.dexam.global.exception.exceptions.ForbiddenException;
 import com.entry.dexam.global.exception.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
@@ -58,6 +57,27 @@ public class EvaluationService {
                 .lastModifiedUser(null)
                 .build();
 
+        evaluationRepository.save(evaluation);
+
+        return new EvaluationIdResponse(evaluation.getId());
+    }
+
+    @Transactional
+    public EvaluationIdResponse patchEvaluation(EvaluationPatchRequest dto, String email, Long id) {
+        User user = userRepository.findByEmailWithClassInfo(email)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        Evaluation evaluation = evaluationRepository.findById(id)
+                .orElseThrow(() -> EvaluationNotFoundException.EXCEPTION);
+
+        int grade = evaluation.getClassInfo().getClassId().getGrade();
+        int classNum = evaluation.getClassInfo().getClassId().getClassNum();
+
+        if (!checkClassPermission(user, grade, classNum)) {
+            throw ForbiddenException.EXCEPTION;
+        }
+
+        evaluation.update(dto, user);
         evaluationRepository.save(evaluation);
 
         return new EvaluationIdResponse(evaluation.getId());
