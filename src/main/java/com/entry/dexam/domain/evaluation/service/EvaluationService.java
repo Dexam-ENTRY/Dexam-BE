@@ -4,10 +4,9 @@ import com.entry.dexam.domain.auth.entity.ClassId;
 import com.entry.dexam.domain.auth.entity.ClassInfo;
 import com.entry.dexam.domain.auth.entity.User;
 import com.entry.dexam.domain.auth.repository.UserRepository;
-import com.entry.dexam.domain.evaluation.dto.EvaluationAddRequest;
-import com.entry.dexam.domain.evaluation.dto.EvaluationIdResponse;
-import com.entry.dexam.domain.evaluation.dto.EvaluationPatchRequest;
+import com.entry.dexam.domain.evaluation.dto.*;
 import com.entry.dexam.domain.evaluation.entity.Evaluation;
+import com.entry.dexam.domain.evaluation.enums.EvaluationType;
 import com.entry.dexam.domain.evaluation.repository.EvaluationRepository;
 import com.entry.dexam.global.exception.exceptions.EvaluationNotFoundException;
 import com.entry.dexam.global.exception.exceptions.ForbiddenException;
@@ -15,6 +14,10 @@ import com.entry.dexam.global.exception.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +34,32 @@ public class EvaluationService {
 
         ClassId classId = classInfo.getClassId();
         return classId.getGrade() == grade && classId.getClassNum() == classNum;
+    }
+
+    @Transactional
+    public EvaluationGetResponse getEvaluations(EvaluationType type, String email, YearMonth date) {
+        User user = userRepository.findByEmailWithClassInfo(email)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        LocalDate start = date.atDay(1);
+        LocalDate end = date.plusMonths(1).atDay(1);
+
+        int grade = user.getClassInfo().getClassId().getGrade();
+        int classNum = user.getClassInfo().getClassId().getClassNum();
+
+        List<Evaluation> evaluations = evaluationRepository.findEvaluations(
+                grade,
+                classNum,
+                start,
+                end,
+                type
+        );
+
+        List<EvaluationDto> items = evaluations.stream()
+                .map(EvaluationDto::convertDto)
+                .toList();
+
+        return new EvaluationGetResponse(items);
     }
 
     @Transactional

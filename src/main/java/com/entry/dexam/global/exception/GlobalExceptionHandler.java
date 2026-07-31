@@ -1,5 +1,6 @@
 package com.entry.dexam.global.exception;
 
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @Slf4j
 @RestControllerAdvice
@@ -29,6 +31,26 @@ public class GlobalExceptionHandler {
                 .toList();
         
         ErrorResponse<List<FieldErrorDto>> response = ErrorResponse.from(details);
+        return ResponseEntity
+                .status(errorCode.getStatusCode())
+                .body(response);
+    }
+
+    @ExceptionHandler(DateTimeParseException.class)
+    public ResponseEntity<ErrorResponse<Void>> handleDateTimeParseException(DateTimeParseException e) {
+        ErrorCode errorCode = ErrorCode.NOT_VALID_DTO_ERR;
+
+        ErrorResponse<Void> response = ErrorResponse.from(errorCode);
+        return ResponseEntity
+                .status(errorCode.getStatusCode())
+                .body(response);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse<Void>> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+        ErrorCode errorCode = ErrorCode.NOT_VALID_DTO_ERR;
+
+        ErrorResponse<Void> response = ErrorResponse.from(errorCode);
         return ResponseEntity
                 .status(errorCode.getStatusCode())
                 .body(response);
