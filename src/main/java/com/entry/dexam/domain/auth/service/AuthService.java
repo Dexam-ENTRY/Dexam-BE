@@ -6,8 +6,10 @@ import com.entry.dexam.domain.auth.dto.ClassRequest;
 import com.entry.dexam.domain.auth.entity.ClassInfo;
 import com.entry.dexam.domain.auth.entity.ClassId;
 import com.entry.dexam.domain.auth.entity.User;
+import com.entry.dexam.domain.auth.enums.Role;
 import com.entry.dexam.domain.auth.repository.ClassInfoRepository;
 import com.entry.dexam.domain.auth.repository.UserRepository;
+import com.entry.dexam.global.exception.exceptions.AdminNotChangeClassException;
 import com.entry.dexam.global.exception.exceptions.ClassNotFoundException;
 import com.entry.dexam.global.exception.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
@@ -25,6 +27,11 @@ public class AuthService {
     public void updateClass(ClassRequest dto, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        if (user.getRole() == Role.CLASS_ADMIN) {
+            throw AdminNotChangeClassException.EXCEPTION;
+        }
+
         ClassId classId = new ClassId(
                 dto.grade(), dto.classNum()
         );

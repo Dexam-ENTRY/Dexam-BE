@@ -13,6 +13,7 @@ public enum ErrorCode {
 	UNAUTHORIZED(401, "UNAUTHORIZED", "인증이 필요합니다."),
 
 	FORBIDDEN(403, "FORBIDDEN", "권한이 없습니다"),
+	ADMIN_NOT_CHANGE_CLASS(403, "ADMIN_NOT_CHANGE_CLASS", "반 관리자는 반 수정이 불가능합니다. 관리자에게 문의하여 주세요"),
 
 	EXAM_RANGE_NOT_FOUND(404, "EXAM_RANGE_NOT_FOUND", "출제 범위를 찾을 수 없습니다."),
 	USER_NOT_FOUND(404, "USER_NOT_FOUND", "사용자를 찾을 수 없습니다."),
