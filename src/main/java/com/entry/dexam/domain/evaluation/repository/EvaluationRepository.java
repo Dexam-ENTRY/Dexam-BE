@@ -10,17 +10,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
-    List<Evaluation> findByTypeAndDateGreaterThanEqualAndDateLessThan(
-            EvaluationType type,
-            LocalDate start,
-            LocalDate end
-    );
-
-    List<Evaluation> findByDateGreaterThanEqualAndDateLessThan(
-            LocalDate start,
-            LocalDate end
-    );
-
     @Query("""
         select e
         from Evaluation e
