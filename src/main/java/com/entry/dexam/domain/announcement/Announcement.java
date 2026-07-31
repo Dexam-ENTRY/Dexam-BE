@@ -1,0 +1,47 @@
+package com.entry.dexam.domain.announcement;
+
+import com.entry.dexam.domain.auth.entity.ClassInfo;
+import com.entry.dexam.domain.auth.entity.User;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import java.time.LocalDateTime;
+
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "announcements")
+public class Announcement {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "class_id")
+    private ClassInfo classInfo;
+
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private String content;
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Builder
+    public Announcement(User user, ClassInfo classInfo, String title, String content){
+        this.user = user;
+        this.classInfo = classInfo;
+        this.title = title;
+        this.content = content;
+    }
+}
