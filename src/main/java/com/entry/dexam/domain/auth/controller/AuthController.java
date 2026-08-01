@@ -18,7 +18,7 @@ public class AuthController {
     private final AuthService authService;
 
 	@PatchMapping("/class")
-    public ApiResponse<Void> updateClass(
+    public ApiResponse<Void> updateClassRequest(
         @RequestBody @Valid ClassRequest classRequest,
         @Parameter(hidden = true) @CurrentUserId Long id
     ) {
