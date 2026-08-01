@@ -1,4 +1,4 @@
-package com.entry.dexam.global.anotations.CurrentUserId;
+package com.entry.dexam.global.annotations.CurrentUserId;
 
 import com.entry.dexam.domain.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

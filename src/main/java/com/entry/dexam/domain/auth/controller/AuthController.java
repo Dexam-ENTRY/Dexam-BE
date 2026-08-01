@@ -3,7 +3,7 @@ package com.entry.dexam.domain.auth.controller;
 import com.entry.dexam.domain.auth.dto.MeResponse;
 import com.entry.dexam.domain.auth.dto.ClassRequest;
 import com.entry.dexam.domain.auth.service.AuthService;
-import com.entry.dexam.global.anotations.CurrentUserId.CurrentUserId;
+import com.entry.dexam.global.annotations.CurrentUserId.CurrentUserId;
 import com.entry.dexam.global.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;

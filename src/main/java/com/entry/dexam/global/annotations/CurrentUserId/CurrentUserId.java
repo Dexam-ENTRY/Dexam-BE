@@ -1,4 +1,4 @@
-package com.entry.dexam.global.anotations.CurrentUserId;
+package com.entry.dexam.global.annotations.CurrentUserId;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -3,7 +3,7 @@ package com.entry.dexam.domain.evaluation.controller;
 import com.entry.dexam.domain.evaluation.dto.*;
 import com.entry.dexam.domain.evaluation.enums.EvaluationType;
 import com.entry.dexam.domain.evaluation.service.EvaluationService;
-import com.entry.dexam.global.anotations.CurrentUserId.CurrentUserId;
+import com.entry.dexam.global.annotations.CurrentUserId.CurrentUserId;
 import com.entry.dexam.global.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
