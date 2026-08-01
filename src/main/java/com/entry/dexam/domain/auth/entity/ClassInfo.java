@@ -13,11 +13,6 @@ public class ClassInfo {
     @EmbeddedId
     private ClassId classId;
 
-    public ClassInfo setClass(int grade, int classNum) {
-        this.classId = new ClassId(grade, classNum);
-        return this;
-    }
-
     public ClassInfo(int grade, int classNum) {
         this.classId = new ClassId(grade, classNum);
     }
