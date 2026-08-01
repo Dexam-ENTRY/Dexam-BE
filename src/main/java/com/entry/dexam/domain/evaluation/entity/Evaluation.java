@@ -4,6 +4,7 @@ import com.entry.dexam.domain.auth.entity.ClassInfo;
 import com.entry.dexam.domain.auth.entity.User;
 import com.entry.dexam.domain.evaluation.dto.EvaluationPatchRequest;
 import com.entry.dexam.domain.evaluation.enums.EvaluationType;
+import com.entry.dexam.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,9 +18,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "evaluations")
-@EntityListeners(AuditingEntityListener.class)
 @Builder
-public class Evaluation {
+public class Evaluation extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -49,10 +49,6 @@ public class Evaluation {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = true)
     private User lastModifiedUser;
-
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime created_at;
 
     public void update(EvaluationPatchRequest request, User user) {
         if (request.type() != null) {
