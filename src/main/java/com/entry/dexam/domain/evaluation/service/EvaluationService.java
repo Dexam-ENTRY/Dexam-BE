@@ -37,8 +37,8 @@ public class EvaluationService {
     }
 
     @Transactional
-    public EvaluationGetResponse getEvaluations(EvaluationType type, String email, YearMonth date) {
-        User user = userRepository.findByEmailWithClassInfo(email)
+    public EvaluationGetResponse getEvaluations(EvaluationType type, Long id, YearMonth date) {
+        User user = userRepository.findByIdWithClassInfo(id)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         ClassInfo classInfo = user.getClassInfo();
@@ -68,8 +68,8 @@ public class EvaluationService {
     }
 
     @Transactional
-    public EvaluationIdResponse addEvaluation(EvaluationAddRequest dto, String email) {
-        User user = userRepository.findByEmailWithClassInfo(email)
+    public EvaluationIdResponse addEvaluation(EvaluationAddRequest dto, Long id) {
+        User user = userRepository.findByIdWithClassInfo(id)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         int grade = dto.target().grade();
@@ -97,11 +97,11 @@ public class EvaluationService {
     }
 
     @Transactional
-    public EvaluationIdResponse patchEvaluation(EvaluationPatchRequest dto, String email, Long id) {
-        User user = userRepository.findByEmailWithClassInfo(email)
+    public EvaluationIdResponse patchEvaluation(EvaluationPatchRequest dto, Long userId, Long evaluationId) {
+        User user = userRepository.findByIdWithClassInfo(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
-        Evaluation evaluation = evaluationRepository.findById(id)
+        Evaluation evaluation = evaluationRepository.findById(evaluationId)
                 .orElseThrow(() -> EvaluationNotFoundException.EXCEPTION);
 
         int grade = evaluation.getClassInfo().getClassId().getGrade();
@@ -118,11 +118,11 @@ public class EvaluationService {
     }
 
     @Transactional
-    public void deleteEvaluation(String email, Long id) {
-        User user = userRepository.findByEmailWithClassInfo(email)
+    public void deleteEvaluation(Long userId, Long evaluationId) {
+        User user = userRepository.findByIdWithClassInfo(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
-        Evaluation evaluation = evaluationRepository.findById(id)
+        Evaluation evaluation = evaluationRepository.findById(evaluationId)
                 .orElseThrow(() -> EvaluationNotFoundException.EXCEPTION);
 
         int grade = evaluation.getClassInfo().getClassId().getGrade();

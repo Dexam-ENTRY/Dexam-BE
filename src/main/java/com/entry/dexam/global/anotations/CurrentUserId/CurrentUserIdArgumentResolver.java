@@ -1,4 +1,4 @@
-package com.entry.dexam.global.anotations.CurrentUserEmail;
+package com.entry.dexam.global.anotations.CurrentUserId;
 
 import com.entry.dexam.domain.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,15 +13,15 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
 @RequiredArgsConstructor
-public class CurrentUserEmailArgumentResolver
+public class CurrentUserIdArgumentResolver
         implements HandlerMethodArgumentResolver {
 
     private final UserRepository userRepository;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(CurrentUserEmail.class)
-                && parameter.getParameterType().equals(String.class);
+        return parameter.hasParameterAnnotation(CurrentUserId.class)
+                && parameter.getParameterType().equals(Long.class);
     }
 
     @Override
@@ -33,8 +33,7 @@ public class CurrentUserEmailArgumentResolver
     ) {
         Authentication authentication =
                 SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
 
-        return email;
+        return Long.valueOf(authentication.getName());
     }
 }

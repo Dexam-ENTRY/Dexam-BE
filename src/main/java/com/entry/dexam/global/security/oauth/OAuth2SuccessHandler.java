@@ -47,7 +47,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
-            String accessToken = jwtProvider.createAccessToken(email, user.getRole().getKey());
+            Long id = user.getId();
+
+            String accessToken = jwtProvider.createAccessToken(id, user.getRole().getKey());
 
             String code = RandomStringUtils.randomAlphanumeric(6);
             exchangeTokenRedisRepository.save(

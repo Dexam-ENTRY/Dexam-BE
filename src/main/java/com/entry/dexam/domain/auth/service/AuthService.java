@@ -24,8 +24,8 @@ public class AuthService {
     private final ClassInfoRepository classInfoRepository;
 
     @Transactional
-    public void updateClass(ClassRequest dto, String email) {
-        User user = userRepository.findByEmail(email)
+    public void updateClass(ClassRequest dto, Long id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         if (user.getRole() == Role.CLASS_ADMIN) {
@@ -42,8 +42,8 @@ public class AuthService {
         user.setClass(classInfo);
     }
 
-    public MeResponse getMe(String email) {
-        User user = userRepository.findByEmailWithClassInfo(email)
+    public MeResponse getMe(Long id) {
+        User user = userRepository.findByIdWithClassInfo(id)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         ClassInfoDto classInfoDto = null;
@@ -67,8 +67,8 @@ public class AuthService {
     }
 
     @Transactional
-    public void deleteMe(String email) {
-        User user = userRepository.findByEmailWithClassInfo(email)
+    public void deleteMe(Long id) {
+        User user = userRepository.findByIdWithClassInfo(id)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         userRepository.delete(user);

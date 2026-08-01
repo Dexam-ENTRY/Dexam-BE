@@ -3,7 +3,7 @@ package com.entry.dexam.domain.evaluation.controller;
 import com.entry.dexam.domain.evaluation.dto.*;
 import com.entry.dexam.domain.evaluation.enums.EvaluationType;
 import com.entry.dexam.domain.evaluation.service.EvaluationService;
-import com.entry.dexam.global.anotations.CurrentUserEmail.CurrentUserEmail;
+import com.entry.dexam.global.anotations.CurrentUserId.CurrentUserId;
 import com.entry.dexam.global.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
@@ -24,27 +24,27 @@ public class EvaluationController {
     public ApiResponse<EvaluationGetResponse> getEvaluations(
         @RequestParam(name = "type", required = false) EvaluationType type,
         @RequestParam @DateTimeFormat(pattern = "yyyy-MM") YearMonth date,
-        @Parameter(hidden = true) @CurrentUserEmail String email
+        @Parameter(hidden = true) @CurrentUserId Long id
     ) {
-        EvaluationGetResponse data = evaluationService.getEvaluations(type, email, date);
+        EvaluationGetResponse data = evaluationService.getEvaluations(type, id, date);
         return ApiResponse.ok(data);
     }
 
     @PostMapping
     public ApiResponse<EvaluationIdResponse> addEvaluation(
         @RequestBody @Valid EvaluationAddRequest evaluationAddRequest,
-        @Parameter(hidden = true) @CurrentUserEmail String email
+        @Parameter(hidden = true) @CurrentUserId Long id
     ) {
-        EvaluationIdResponse evaluationIdResponse = evaluationService.addEvaluation(evaluationAddRequest, email);
+        EvaluationIdResponse evaluationIdResponse = evaluationService.addEvaluation(evaluationAddRequest, id);
         return ApiResponse.ok(evaluationIdResponse);
     }
 
     @DeleteMapping("/{id}")
     public ApiResponse<Void> deleteEvaluation(
             @PathVariable Long id,
-            @Parameter(hidden = true) @CurrentUserEmail String email
+            @Parameter(hidden = true) @CurrentUserId Long userId
     ) {
-        evaluationService.deleteEvaluation(email, id);
+        evaluationService.deleteEvaluation(userId, id);
         return ApiResponse.ok();
     }
 
@@ -52,9 +52,9 @@ public class EvaluationController {
     public ApiResponse<EvaluationIdResponse> patchEvaluation(
         @PathVariable Long id,
         @RequestBody @Valid EvaluationPatchRequest evaluationPatchRequest,
-        @Parameter(hidden = true) @CurrentUserEmail String email
+        @Parameter(hidden = true) @CurrentUserId Long userId
     ) {
-        EvaluationIdResponse evaluationIdResponse = evaluationService.patchEvaluation(evaluationPatchRequest, email, id);
+        EvaluationIdResponse evaluationIdResponse = evaluationService.patchEvaluation(evaluationPatchRequest, userId, id);
         return ApiResponse.ok(evaluationIdResponse);
     }
 }
