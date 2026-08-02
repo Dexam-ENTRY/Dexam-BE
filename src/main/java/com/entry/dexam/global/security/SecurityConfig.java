@@ -1,5 +1,6 @@
 package com.entry.dexam.global.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,8 +37,10 @@ public class SecurityConfig {
                 .sessionCreationPolicy(org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
 
         .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/login/**", "/oauth2/**").permitAll()
+                .requestMatchers("/api/auth/class", "/api/auth/me").authenticated()
+                .requestMatchers("/api/auth/**", "/login/**", "/oauth2/**", "/api/auth/token").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
+                .requestMatchers("/api/admin/evaluation/**").hasRole("CLASS_ADMIN")
                 .anyRequest().authenticated()
         )
 
