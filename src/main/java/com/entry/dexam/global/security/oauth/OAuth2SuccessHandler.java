@@ -49,7 +49,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
             Long id = user.getId();
 
-            String code = RandomStringUtils.randomAlphanumeric(6);
+            String code = RandomStringUtils.secure().nextAlphanumeric(22);
             exchangeTokenRedisRepository.save(
                     ExchangeToken.builder().code(code).userId(id).build()
             );
