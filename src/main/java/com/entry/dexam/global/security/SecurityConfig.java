@@ -1,6 +1,5 @@
 package com.entry.dexam.global.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +16,7 @@ import com.entry.dexam.global.security.oauth.CustomOAuth2UserService;
 import com.entry.dexam.global.security.oauth.OAuth2SuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRequestHandler;
-import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -49,6 +47,9 @@ public class SecurityConfig {
             .requireCsrfProtectionMatcher(csrfMatcher)
             .csrfTokenRepository(
                 CookieCsrfTokenRepository.withHttpOnlyFalse()
+            )
+            .csrfTokenRequestHandler(
+                new CsrfTokenRequestAttributeHandler()
             )
         )
         .sessionManagement(session -> session
