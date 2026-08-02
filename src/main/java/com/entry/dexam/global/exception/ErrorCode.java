@@ -12,6 +12,7 @@ public enum ErrorCode {
 	VALIDATION_FAILED(400, "요청 값이 올바르지 않습니다."),
 
 	EXAM_RANGE_NOT_FOUND(404, "출제 범위를 찾을 수 없습니다."),
+
 	INTERNAL_SERVER_ERR(500, "서버 측 오류가 발생했습니다.");
 	private Integer statusCode;
     private String errorMessage;
