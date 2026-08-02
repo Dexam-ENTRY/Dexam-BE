@@ -1,0 +1,12 @@
+### 일정 생성 테스트
+POST http://localhost:8080/api/admin/schedules
+Content-Type: application/json
+
+{
+  "title": "2학년 수련회",
+  "content": "수련회 세부 일정 안내",
+  "date": "2026-09-15",
+  "target": "GRADE",
+  "grade": 2,
+  "classNo": null
+}

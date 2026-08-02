@@ -1,0 +1,28 @@
+package com.entry.dexam.domain.schedule;
+
+import com.entry.dexam.domain.schedule.dto.ScheduleCreateRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@RequiredArgsConstructor
+public class ScheduleService {
+
+    private final ScheduleRepository scheduleRepository;
+
+    @Transactional
+    public Long createSchedule(ScheduleCreateRequest request) {
+        Schedule schedule = Schedule.builder()
+                .title(request.getTitle())
+                .content(request.getContent())
+                .date(request.getDate())
+                .target(request.getTarget())
+                .grade(request.getGrade())
+                .classNo(request.getClassNo())
+                .build();
+
+        Schedule savedSchedule = scheduleRepository.save(schedule);
+        return savedSchedule.getId();
+    }
+}
