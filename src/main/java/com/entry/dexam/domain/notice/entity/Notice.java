@@ -45,10 +45,19 @@ public class Notice {
     private LocalDateTime createdAt;
 
     @Builder
-    public Notice(User user, ClassInfo classInfo, String title, String content){
+    public Notice(User user, ClassInfo classInfo, Target target, String title, String content){
         this.user = user;
         this.classInfo = classInfo;
+        this.target = target;
         this.title = title;
         this.content = content;
+    }
+
+
+    public void update(String title, String content, Target target, ClassInfo classInfo) {
+        this.title = title;
+        this.content = content;
+        this.target = target;
+        this.classInfo = classInfo;
     }
 }
