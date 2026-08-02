@@ -7,11 +7,14 @@ import com.entry.dexam.domain.refresh.dto.response.AccessTokenResponse;
 import com.entry.dexam.domain.refresh.dto.response.TokenDto;
 import com.entry.dexam.domain.refresh.service.RefreshService;
 import com.entry.dexam.global.dto.ApiResponse;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
 import static com.entry.dexam.domain.refresh.Refresh.REFRESH_TOKEN_COOKIE_NAME;
@@ -44,6 +47,7 @@ public class RefreshController {
     }
 
     @PostMapping
+    @SecurityRequirement(name = "csrfToken")
     public ResponseEntity<ApiResponse<AccessTokenResponse>> reissueToken(
         @CookieValue(
             value = REFRESH_TOKEN_COOKIE_NAME,
@@ -66,6 +70,7 @@ public class RefreshController {
     }
 
     @DeleteMapping
+    @SecurityRequirement(name = "csrfToken")
     public ResponseEntity<ApiResponse<Void>> deleteToken(
         @CookieValue(
             value = REFRESH_TOKEN_COOKIE_NAME,
@@ -85,4 +90,8 @@ public class RefreshController {
             );
     }
 
+    @GetMapping("/csrf")
+    public CsrfToken csrfToken(@Parameter(hidden = true) CsrfToken token) {
+        return token;
+    }
 }

@@ -35,3 +35,7 @@ jwt:
 
 frontend:
   oauth-callback-url: ${FRONTEND_CALLBACK_URL}
+
+logging:
+  level:
+    org.springframework.security: DEBUG

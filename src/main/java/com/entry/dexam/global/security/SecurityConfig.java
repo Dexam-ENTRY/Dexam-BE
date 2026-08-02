@@ -16,6 +16,12 @@ import com.entry.dexam.global.security.jwt.JwtAuthenticationFilter;
 import com.entry.dexam.global.security.oauth.CustomOAuth2UserService;
 import com.entry.dexam.global.security.oauth.OAuth2SuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestHandler;
+import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -27,12 +33,24 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        RequestMatcher csrfMatcher = new OrRequestMatcher(
+            PathPatternRequestMatcher.withDefaults()
+                .matcher("/api/refresh")
+        );
+
         http
         .httpBasic(AbstractHttpConfigurer::disable)
         .formLogin(AbstractHttpConfigurer::disable)
-        .csrf(AbstractHttpConfigurer::disable)
+        .csrf(csrf -> csrf
+            .requireCsrfProtectionMatcher(csrfMatcher)
+            .csrfTokenRepository(
+                CookieCsrfTokenRepository.withHttpOnlyFalse()
+            )
+        )
         .sessionManagement(session -> session
                 .sessionCreationPolicy(org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
 
