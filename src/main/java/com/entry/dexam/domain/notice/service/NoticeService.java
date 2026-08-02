@@ -7,10 +7,7 @@ import com.entry.dexam.domain.auth.repository.ClassInfoRepository;
 import com.entry.dexam.domain.auth.repository.UserRepository;
 import com.entry.dexam.domain.notice.dto.request.NoticeCreateRequest;
 import com.entry.dexam.domain.notice.dto.request.NoticeUpdateRequest;
-import com.entry.dexam.domain.notice.dto.response.NoticeCreateResponse;
-import com.entry.dexam.domain.notice.dto.response.NoticeDetailResponse;
-import com.entry.dexam.domain.notice.dto.response.NoticeListResponse;
-import com.entry.dexam.domain.notice.dto.response.NoticeUpdateResponse;
+import com.entry.dexam.domain.notice.dto.response.*;
 import com.entry.dexam.domain.notice.entity.Notice;
 import com.entry.dexam.domain.notice.enums.Target;
 import com.entry.dexam.domain.notice.repository.NoticeRepository;
@@ -19,7 +16,6 @@ import com.entry.dexam.global.exception.exceptions.ClassNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +28,9 @@ public class NoticeService {
     private final UserRepository userRepository;
     private final ClassInfoRepository classInfoRepository;
 
-    public NoticeCreateResponse createNotice(String email, NoticeCreateRequest request){
+    public NoticeCreateResponse createNotice(Long userId, NoticeCreateRequest request){
 
-        User user = userRepository.findByEmail(email)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         if(user.getRole() != Role.ADMIN) throw NoticeWriteForbiddenException.EXCEPTION;
@@ -55,7 +51,7 @@ public class NoticeService {
     }
 
     @Transactional(readOnly = true)
-    public NoticeListResponse readNoticeList(String email, Target target, String keyword){
+    public NoticeListResponse readNoticeList(Long userId, Target target, String keyword){
 
         String normalizedKeyword = keyword == null || keyword.isBlank() ? null : keyword.trim();
         List<Notice> notices = new ArrayList<>();
@@ -64,7 +60,7 @@ public class NoticeService {
             notices = noticeRepository.findNotices(target, normalizedKeyword);
 
         } else if (target == Target.CLASS) {
-            User user = userRepository.findByEmail(email)
+            User user = userRepository.findById(userId)
                     .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
             if (user.getClassInfo() == null) throw UnauthorizedException.EXCEPTION;
@@ -80,9 +76,9 @@ public class NoticeService {
     }
 
     @Transactional(readOnly = true)
-    public NoticeDetailResponse readNoticeDetail(String email, Long noticeId){
+    public NoticeDetailResponse readNoticeDetail(Long userId, Long noticeId){
 
-        User user = userRepository.findByEmail(email)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         Notice notice = noticeRepository.findById(noticeId)
@@ -93,9 +89,9 @@ public class NoticeService {
         return NoticeDetailResponse.from(notice);
     }
 
-    public NoticeUpdateResponse updateNotice(String email, Long noticeId, NoticeUpdateRequest request) {
+    public NoticeUpdateResponse updateNotice(Long userId, Long noticeId, NoticeUpdateRequest request) {
 
-        User user = userRepository.findByEmail(email)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         if(user.getRole() != Role.ADMIN) throw NoticeWriteForbiddenException.EXCEPTION;
@@ -110,9 +106,9 @@ public class NoticeService {
         return NoticeUpdateResponse.from(notice);
     }
 
-    public void deleteNotice(String email, Long noticeId){
+    public NoticeDeleteResponse deleteNotice(Long userId, Long noticeId){
 
-        User user = userRepository.findByEmail(email)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         if(user.getRole() != Role.ADMIN) throw NoticeWriteForbiddenException.EXCEPTION;
@@ -122,6 +118,7 @@ public class NoticeService {
 
         noticeRepository.delete(notice);
 
+        return NoticeDeleteResponse.of();
     }
 
     private void validateReadPermission(User user, Notice notice){
