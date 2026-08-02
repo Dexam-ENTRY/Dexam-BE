@@ -1,13 +1,11 @@
-package com.entry.dexam.global.security.oauth.changer.custom;
+package com.entry.dexam.domain.refresh.repositroy.custom;
 
-import com.entry.dexam.global.security.oauth.changer.ExchangeToken;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.entry.dexam.domain.refresh.entity.ExchangeToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Repository;
 
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Repository
@@ -51,7 +49,7 @@ public class ExchangeTokenRedisRepositoryImpl
 
     private ExchangeToken convertToExchangeToken(List<String> result) {
 
-        String accessToken = null;
+        Long userId = null;
         String code = null;
 
         for (int i = 0; i < result.size(); i += 2) {
@@ -63,8 +61,8 @@ public class ExchangeTokenRedisRepositoryImpl
                 code = value;
             }
 
-            if ("accessToken".equals(field)) {
-                accessToken = value;
+            if ("userId".equals(field)) {
+                userId = Long.valueOf(value);
             }
         }
 
@@ -72,13 +70,13 @@ public class ExchangeTokenRedisRepositoryImpl
             return null;
         }
 
-        if (accessToken == null) {
+        if (userId == null) {
             return null;
         }
 
         return ExchangeToken.builder()
                 .code(code)
-                .accessToken(accessToken)
+                .userId(userId)
                 .build();
     }
 }

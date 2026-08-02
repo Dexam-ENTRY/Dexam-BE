@@ -1,6 +1,7 @@
-package com.entry.dexam.global.security.oauth.changer;
+package com.entry.dexam.domain.refresh.repositroy;
 
-import com.entry.dexam.global.security.oauth.changer.custom.ExchangeTokenRedisRepositoryCustom;
+import com.entry.dexam.domain.refresh.entity.ExchangeToken;
+import com.entry.dexam.domain.refresh.repositroy.custom.ExchangeTokenRedisRepositoryCustom;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ExchangeTokenRedisRepository extends CrudRepository<ExchangeToken, String>, ExchangeTokenRedisRepositoryCustom {
