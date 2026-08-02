@@ -63,10 +63,6 @@ public class RefreshService {
     }
 
     public void deleteToken(String token) {
-        if (token == null) {
-            throw TokenNotFoundException.EXCEPTION;
-        }
-
         getRefreshToken(token);
     }
 
