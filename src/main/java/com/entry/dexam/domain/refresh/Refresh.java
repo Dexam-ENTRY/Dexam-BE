@@ -8,7 +8,7 @@ public class Refresh {
 
     public static final int REFRESH_TOKEN_ALIVE_DAYS = 14;
 
-    public static final int EXCHANGE_TOKEN_ALIVE = 3600;
+    public static final int EXCHANGE_TOKEN_ALIVE = 600;
 
     public static final String REFRESH_TOKEN_COOKIE_NAME = "refresh";
 }
