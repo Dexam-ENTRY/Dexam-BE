@@ -2,12 +2,14 @@ package com.entry.dexam.domain.auth.service;
 
 import com.entry.dexam.domain.auth.dto.ClassInfoDto;
 import com.entry.dexam.domain.auth.dto.MeResponse;
-import com.entry.dexam.domain.auth.dto.SetClassRequest;
+import com.entry.dexam.domain.auth.dto.ClassRequest;
 import com.entry.dexam.domain.auth.entity.ClassInfo;
 import com.entry.dexam.domain.auth.entity.ClassId;
 import com.entry.dexam.domain.auth.entity.User;
+import com.entry.dexam.domain.auth.enums.Role;
 import com.entry.dexam.domain.auth.repository.ClassInfoRepository;
 import com.entry.dexam.domain.auth.repository.UserRepository;
+import com.entry.dexam.global.exception.exceptions.AdminNotChangeClassException;
 import com.entry.dexam.global.exception.exceptions.ClassNotFoundException;
 import com.entry.dexam.global.exception.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
@@ -22,9 +24,14 @@ public class AuthService {
     private final ClassInfoRepository classInfoRepository;
 
     @Transactional
-    public void updateClass(SetClassRequest dto, String email) {
-        User user = userRepository.findByEmail(email)
+    public void updateClass(ClassRequest dto, Long id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        if (user.getRole() == Role.CLASS_ADMIN) {
+            throw AdminNotChangeClassException.EXCEPTION;
+        }
+
         ClassId classId = new ClassId(
                 dto.grade(), dto.classNum()
         );
@@ -35,8 +42,8 @@ public class AuthService {
         user.setClass(classInfo);
     }
 
-    public MeResponse getMe(String email) {
-        User user = userRepository.findByEmailWithClassInfo(email)
+    public MeResponse getMe(Long id) {
+        User user = userRepository.findByIdWithClassInfo(id)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         ClassInfoDto classInfoDto = null;
@@ -60,8 +67,8 @@ public class AuthService {
     }
 
     @Transactional
-    public void deleteMe(String email) {
-        User user = userRepository.findByEmailWithClassInfo(email)
+    public void deleteMe(Long id) {
+        User user = userRepository.findByIdWithClassInfo(id)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         userRepository.delete(user);

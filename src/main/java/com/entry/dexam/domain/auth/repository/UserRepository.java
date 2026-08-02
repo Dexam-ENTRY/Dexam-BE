@@ -17,4 +17,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
         where u.email = :email
     """) // Null 고려
     Optional<User> findByEmailWithClassInfo(@Param("email") String email);
+
+    @Query("""
+        select u
+        from User u
+        left join fetch u.classInfo
+        where u.id = :id
+    """) // Null 고려
+    Optional<User> findByIdWithClassInfo(@Param("id") Long id);
 }

@@ -1,16 +1,12 @@
 package com.entry.dexam.domain.auth.controller;
 
 import com.entry.dexam.domain.auth.dto.MeResponse;
-import com.entry.dexam.domain.auth.dto.SetClassRequest;
-import com.entry.dexam.domain.auth.entity.User;
+import com.entry.dexam.domain.auth.dto.ClassRequest;
 import com.entry.dexam.domain.auth.service.AuthService;
-import com.entry.dexam.global.anotations.CurrentUser.CurrentUserEmail;
+import com.entry.dexam.global.annotations.CurrentUserId.CurrentUserId;
 import com.entry.dexam.global.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
@@ -22,27 +18,27 @@ public class AuthController {
     private final AuthService authService;
 
 	@PatchMapping("/class")
-    public ApiResponse<Void> updateClass(
-        @RequestBody @Valid SetClassRequest setClassRequest,
-        @Parameter(hidden = true) @CurrentUserEmail String email
+    public ApiResponse<Void> updateClassRequest(
+        @RequestBody @Valid ClassRequest classRequest,
+        @Parameter(hidden = true) @CurrentUserId Long id
     ) {
-        authService.updateClass(setClassRequest, email);
+        authService.updateClass(classRequest, id);
 		return ApiResponse.ok();
     }
 
     @GetMapping("/me")
     public ApiResponse<MeResponse> getMe(
-        @Parameter(hidden = true) @CurrentUserEmail String email
+        @Parameter(hidden = true) @CurrentUserId Long id
     ) {
-        MeResponse meResponse = authService.getMe(email);
+        MeResponse meResponse = authService.getMe(id);
         return ApiResponse.ok(meResponse);
     }
 
     @DeleteMapping("/me")
     public ApiResponse<Void> deleteMe(
-        @Parameter(hidden = true) @CurrentUserEmail String email
+        @Parameter(hidden = true) @CurrentUserId Long id
     ) {
-        authService.deleteMe(email);
+        authService.deleteMe(id);
         return ApiResponse.ok();
     }
 }

@@ -1,12 +1,14 @@
 package com.entry.dexam.domain.auth.entity;
 
 import com.entry.dexam.domain.auth.enums.Role;
+import com.entry.dexam.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -14,7 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "users")
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,9 +42,6 @@ public class User {
     })
     private ClassInfo classInfo;
 
-    @CreatedDate
-    @Column(updatable = false, nullable = false)
-    private LocalDateTime createdAt;
 
     @Builder
     public User(String email, String name, Role role, String provider, String providerId) {
@@ -51,7 +50,6 @@ public class User {
         this.role = role;
         this.provider = provider;
         this.providerId = providerId;
-        this.createdAt = LocalDateTime.now();
     }
 
     public User update(String name) {
