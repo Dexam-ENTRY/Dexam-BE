@@ -1,4 +1,4 @@
-package com.entry.dexam.global.anotations.CurrentUser;
+package com.entry.dexam.global.annotations.CurrentUserId;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -9,9 +9,9 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private final CurrentUserEmailArgumentResolver resolver;
+    private final CurrentUserIdArgumentResolver resolver;
 
-    public WebConfig(CurrentUserEmailArgumentResolver resolver) {
+    public WebConfig(CurrentUserIdArgumentResolver resolver) {
         this.resolver = resolver;
     }
 
