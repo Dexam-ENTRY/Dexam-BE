@@ -63,7 +63,7 @@ public class RefreshService {
     }
 
     public void deleteToken(String token) {
-        getRefreshToken(token);
+        refreshTokenRedisRepository.consumeByToken(token);
     }
 
     public TokenDto exchangeToken(String code) {
