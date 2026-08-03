@@ -1,8 +1,15 @@
 package com.entry.dexam.domain.refresh.repositroy;
 
 import com.entry.dexam.domain.refresh.entity.RefreshToken;
-import com.entry.dexam.domain.refresh.repositroy.custom.RefreshTokenRedisRepositoryCustom;
-import org.springframework.data.repository.CrudRepository;
 
-public interface RefreshTokenRedisRepository extends CrudRepository<RefreshToken, String>, RefreshTokenRedisRepositoryCustom {
+public interface RefreshTokenRedisRepository {
+    RefreshToken consumeByToken(String code);
+
+    void save(RefreshToken token);
+
+    RefreshToken findByCode(String code);
+
+    void delete(RefreshToken token);
+
+    void deleteByToken(String token);
 }

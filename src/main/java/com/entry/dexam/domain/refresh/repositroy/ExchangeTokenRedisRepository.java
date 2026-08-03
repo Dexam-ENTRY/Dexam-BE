@@ -1,9 +1,13 @@
 package com.entry.dexam.domain.refresh.repositroy;
 
 import com.entry.dexam.domain.refresh.entity.ExchangeToken;
-import com.entry.dexam.domain.refresh.repositroy.custom.ExchangeTokenRedisRepositoryCustom;
-import org.springframework.data.repository.CrudRepository;
 
-public interface ExchangeTokenRedisRepository extends CrudRepository<ExchangeToken, String>, ExchangeTokenRedisRepositoryCustom {
+public interface ExchangeTokenRedisRepository {
+    ExchangeToken consumeByCode(String code);
+
+    void save(ExchangeToken token);
+
     ExchangeToken findByCode(String code);
+
+    void delete(ExchangeToken token);
 }

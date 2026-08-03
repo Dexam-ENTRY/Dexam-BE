@@ -1,6 +1,5 @@
 package com.entry.dexam.domain.refresh.controller;
 
-import com.entry.dexam.domain.evaluation.dto.EvaluationAddRequest;
 import com.entry.dexam.domain.refresh.component.CookieProvider;
 import com.entry.dexam.domain.refresh.dto.request.ExchangeTokenRequest;
 import com.entry.dexam.domain.refresh.dto.response.AccessTokenResponse;
