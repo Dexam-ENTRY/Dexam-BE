@@ -56,8 +56,8 @@ public class RefreshService {
         }
 
         RefreshToken refreshToken = getRefreshToken(token);
-        String newRefreshToken = createRefreshToken(refreshToken.getUserId());
         String newAccessToken = issueAccessToken(refreshToken.getUserId());
+        String newRefreshToken = createRefreshToken(refreshToken.getUserId());
 
         return new TokenDto(newRefreshToken, newAccessToken);
     }
