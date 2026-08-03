@@ -137,6 +137,6 @@ public class NoticeService {
         return classInfoRepository.findByClassIdGradeAndClassIdClassNum(
                 grade, classNo
         ).orElseThrow(() -> ClassNotFoundException.EXCEPTION);
-        }
     }
+}
 
