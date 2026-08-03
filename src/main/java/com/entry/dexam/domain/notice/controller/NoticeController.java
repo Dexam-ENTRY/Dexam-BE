@@ -19,37 +19,6 @@ public class NoticeController {
 
     private final NoticeService noticeService;
 
-    @PostMapping("/admin/notices")
-    public ApiResponse<NoticeCreateResponse> createNotice(
-            @RequestBody @Valid NoticeCreateRequest request,
-            @Parameter(hidden = true) @CurrentUserId Long userId
-            ) {
-
-        NoticeCreateResponse response = noticeService.createNotice(userId, request);
-        return ApiResponse.ok(response);
-    }
-
-    @DeleteMapping("/admin/notices/{noticeId}")
-    public ApiResponse<NoticeDeleteResponse> deleteNotice(
-            @PathVariable Long noticeId,
-            @Parameter(hidden = true) @CurrentUserId Long userId
-            ) {
-
-        NoticeDeleteResponse response = noticeService.deleteNotice(userId, noticeId);
-        return ApiResponse.ok(response);
-    }
-
-    @PutMapping("/admin/notices/{noticeId}")
-    public ApiResponse<NoticeUpdateResponse> updateNotice(
-            @PathVariable Long noticeId,
-            @RequestBody @Valid NoticeUpdateRequest request,
-            @Parameter(hidden = true) @CurrentUserId Long userId
-    ){
-
-        NoticeUpdateResponse response = noticeService.updateNotice(userId, noticeId, request);
-        return ApiResponse.ok(response);
-    }
-
     @GetMapping("/notices")
     public ApiResponse<NoticeListResponse> getNoticeList(
             @Parameter(hidden = true) @CurrentUserId Long userId,
