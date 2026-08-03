@@ -40,14 +40,18 @@ public class SecurityConfig {
                 .matcher("/api/refresh")
         );
 
+        CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        csrfTokenRepository.setCookieCustomizer(cookie -> cookie
+                .secure(true)
+                .sameSite("Lax")
+        );
+
         http
         .httpBasic(AbstractHttpConfigurer::disable)
         .formLogin(AbstractHttpConfigurer::disable)
         .csrf(csrf -> csrf
             .requireCsrfProtectionMatcher(csrfMatcher)
-            .csrfTokenRepository(
-                CookieCsrfTokenRepository.withHttpOnlyFalse()
-            )
+            .csrfTokenRepository(csrfTokenRepository)
             .csrfTokenRequestHandler(
                 new CsrfTokenRequestAttributeHandler()
             )

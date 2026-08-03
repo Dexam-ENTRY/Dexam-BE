@@ -22,7 +22,7 @@ public class CookieProvider {
                 .secure(true)
                 .path("/")
                 .maxAge(Duration.ofDays(REFRESH_TOKEN_ALIVE_DAYS))
-                .sameSite("None")
+                .sameSite("Lax")
                 .build();
     }
 
@@ -36,7 +36,7 @@ public class CookieProvider {
                 .secure(true)
                 .path("/")
                 .maxAge(0)
-                .sameSite("None")
+                .sameSite("Lax")
                 .build();
     }
 }
