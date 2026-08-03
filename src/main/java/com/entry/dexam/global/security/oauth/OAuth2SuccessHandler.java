@@ -2,11 +2,11 @@ package com.entry.dexam.global.security.oauth;
 
 import com.entry.dexam.domain.auth.entity.User;
 import com.entry.dexam.domain.auth.repository.UserRepository;
+import com.entry.dexam.domain.refresh.entity.ExchangeToken;
+import com.entry.dexam.domain.refresh.repositroy.ExchangeTokenRedisRepository;
 import com.entry.dexam.global.exception.ErrorCode;
 import com.entry.dexam.global.exception.ErrorResponse;
 import com.entry.dexam.global.security.jwt.JwtProvider;
-import com.entry.dexam.global.security.oauth.changer.ExchangeToken;
-import com.entry.dexam.global.security.oauth.changer.ExchangeTokenRedisRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -49,11 +49,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
             Long id = user.getId();
 
-            String accessToken = jwtProvider.createAccessToken(id, user.getRole().getKey());
-
-            String code = RandomStringUtils.randomAlphanumeric(6);
+            String code = RandomStringUtils.secure().nextAlphanumeric(22);
             exchangeTokenRedisRepository.save(
-                    ExchangeToken.builder().code(code).accessToken(accessToken).build()
+                    ExchangeToken.builder().code(code).userId(id).build()
             );
 
             String targetUrl = callbackUrl + "?code=" + code;

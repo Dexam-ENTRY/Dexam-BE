@@ -1,6 +1,5 @@
 package com.entry.dexam.global.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +15,11 @@ import com.entry.dexam.global.security.jwt.JwtAuthenticationFilter;
 import com.entry.dexam.global.security.oauth.CustomOAuth2UserService;
 import com.entry.dexam.global.security.oauth.OAuth2SuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -27,18 +31,37 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        RequestMatcher csrfMatcher = new OrRequestMatcher(
+            PathPatternRequestMatcher.withDefaults()
+                .matcher("/api/refresh")
+        );
+
+        CookieCsrfTokenRepository csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        csrfTokenRepository.setCookieCustomizer(cookie -> cookie
+                .secure(true)
+                .sameSite("Lax")
+        );
+
         http
         .httpBasic(AbstractHttpConfigurer::disable)
         .formLogin(AbstractHttpConfigurer::disable)
-        .csrf(AbstractHttpConfigurer::disable)
+        .csrf(csrf -> csrf
+            .requireCsrfProtectionMatcher(csrfMatcher)
+            .csrfTokenRepository(csrfTokenRepository)
+            .csrfTokenRequestHandler(
+                new CsrfTokenRequestAttributeHandler()
+            )
+        )
         .sessionManagement(session -> session
                 .sessionCreationPolicy(org.springframework.security.config.http.SessionCreationPolicy.STATELESS))
 
         .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/class", "/api/auth/me").authenticated()
-                .requestMatchers("/api/auth/**", "/login/**", "/oauth2/**", "/api/auth/token").permitAll()
+                .requestMatchers("/api/auth/**", "/login/**", "/oauth2/**", "/api/refresh/**").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()
                 .requestMatchers("/api/admin/evaluation/**").hasRole("CLASS_ADMIN")
                 .anyRequest().authenticated()

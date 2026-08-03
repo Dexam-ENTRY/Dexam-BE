@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @Slf4j
 @RestControllerAdvice
@@ -70,6 +71,21 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse<Void>> handleBusinessException(BusinessException e) {
         ErrorCode errorCode = e.getErrorCode();
         ErrorResponse<Void> response = ErrorResponse.from(errorCode);
+        return ResponseEntity
+                .status(errorCode.getStatusCode())
+                .body(response);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse<Void>> handleNoResourceFoundException(
+            NoResourceFoundException e
+    ) {
+
+        ErrorCode errorCode = ErrorCode.NOT_FOUND;
+
+        ErrorResponse<Void> response =
+                ErrorResponse.from(errorCode);
+
         return ResponseEntity
                 .status(errorCode.getStatusCode())
                 .body(response);
