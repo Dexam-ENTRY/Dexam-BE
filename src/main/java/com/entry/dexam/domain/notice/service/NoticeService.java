@@ -132,7 +132,7 @@ public class NoticeService {
     private ClassInfo resolveClassInfo(Target target, Integer grade, Integer classNo) {
         if (target == Target.ALL) return null;
 
-        if (grade == null || classNo == null) throw ValidationFailedException.EXCEPTION;
+        if (grade <= 0 || classNo <= 0) throw ValidationFailedException.EXCEPTION;
 
         return classInfoRepository.findByClassIdGradeAndClassIdClassNum(
                 grade, classNo
