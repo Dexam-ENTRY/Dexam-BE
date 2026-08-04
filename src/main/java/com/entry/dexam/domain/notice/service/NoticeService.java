@@ -126,7 +126,7 @@ public class NoticeService {
 
         if(user.getClassInfo() == null || !user.getClassInfo().getClassId()
                 .equals(notice.getClassInfo().getClassId())
-        ) throw UnauthorizedException.EXCEPTION;
+        ) throw ForbiddenException.EXCEPTION;
     }
 
     private ClassInfo resolveClassInfo(Target target, Integer grade, Integer classNo) {
