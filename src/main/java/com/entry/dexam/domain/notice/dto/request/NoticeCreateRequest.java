@@ -1,10 +1,7 @@
 package com.entry.dexam.domain.notice.dto.request;
 
 import com.entry.dexam.domain.notice.enums.Target;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public record NoticeCreateRequest(
 
@@ -25,4 +22,8 @@ public record NoticeCreateRequest(
         @PositiveOrZero
         int classNo
 ) {
+        @AssertTrue(message = "학급 공지는 학년과 반을 선택해주세요.")
+        public boolean isClassInfoValid() {
+                return target != Target.CLASS || (grade >= 1 && classNo >= 1);
+        }
 }
