@@ -3,21 +3,18 @@ package com.entry.dexam.domain.notice.entity;
 import com.entry.dexam.domain.notice.enums.Target;
 import com.entry.dexam.domain.auth.entity.ClassInfo;
 import com.entry.dexam.domain.auth.entity.User;
+import com.entry.dexam.global.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EntityListeners(AuditingEntityListener.class)
 @Table(name = "announcements")
-public class Notice {
+public class Notice extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,9 +37,6 @@ public class Notice {
     @Enumerated(EnumType.STRING)
     private Target target;
 
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 
     @Builder
     public Notice(User user, ClassInfo classInfo, Target target, String title, String content){
