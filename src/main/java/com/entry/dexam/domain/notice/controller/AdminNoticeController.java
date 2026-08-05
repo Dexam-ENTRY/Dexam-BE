@@ -14,13 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/admin/notices")
 @RequiredArgsConstructor
 public class AdminNoticeController {
 
     private final NoticeService noticeService;
 
-    @PostMapping("/admin/notices")
+    @PostMapping
     public ApiResponse<NoticeCreateResponse> createNotice(
             @RequestBody @Valid NoticeCreateRequest request,
             @Parameter(hidden = true) @CurrentUserId Long userId
@@ -30,7 +30,7 @@ public class AdminNoticeController {
         return ApiResponse.ok(response);
     }
 
-    @DeleteMapping("/admin/notices/{noticeId}")
+    @DeleteMapping("/{noticeId}")
     public ApiResponse<NoticeDeleteResponse> deleteNotice(
             @PathVariable Long noticeId,
             @Parameter(hidden = true) @CurrentUserId Long userId
@@ -40,7 +40,7 @@ public class AdminNoticeController {
         return ApiResponse.ok(response);
     }
 
-    @PutMapping("/admin/notices/{noticeId}")
+    @PutMapping("/{noticeId}")
     public ApiResponse<NoticeUpdateResponse> updateNotice(
             @PathVariable Long noticeId,
             @RequestBody @Valid NoticeUpdateRequest request,
