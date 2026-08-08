@@ -47,4 +47,12 @@ public class Schedule extends BaseEntity {
         this.grade = grade;
         this.classNo = classNo;
     }
+    public void update(String title, String content, LocalDate date, String target, Integer grade, Integer classNo) {
+        this.title = title;
+        this.content = content;
+        this.date = date;
+        this.target = target;
+        this.grade = grade;
+        this.classNo = classNo;
+    }
 }

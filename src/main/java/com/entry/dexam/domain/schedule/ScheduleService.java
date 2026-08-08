@@ -1,6 +1,8 @@
 package com.entry.dexam.domain.schedule;
 
 import com.entry.dexam.domain.schedule.dto.ScheduleCreateRequest;
+import com.entry.dexam.domain.schedule.dto.ScheduleUpdateRequest;
+import com.entry.dexam.global.exception.exceptions.ScheduleNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,5 +26,19 @@ public class ScheduleService {
 
         Schedule savedSchedule = scheduleRepository.save(schedule);
         return savedSchedule.getId();
+    }
+    @Transactional
+    public void updateSchedule(Long scheduleId, ScheduleUpdateRequest request) {
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> ScheduleNotFoundException.EXCEPTION);
+
+        schedule.update(
+                request.title(),
+                request.content(),
+                request.date(),
+                request.target(),
+                request.grade(),
+                request.classNo()
+        );
     }
 }
