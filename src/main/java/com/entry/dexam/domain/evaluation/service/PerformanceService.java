@@ -44,7 +44,7 @@ public class PerformanceService {
 
         ClassInfo classInfo = user.getClassInfo();
 
-        if (classInfo == null) throw UnauthorizedException.EXCEPTION;
+        if (classInfo == null) throw PerformanceAccessDeniedException.EXCEPTION;
 
         String normalizedKeyword = keyword == null || keyword.isBlank() ? null : keyword.trim();
 
