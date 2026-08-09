@@ -56,8 +56,6 @@ public class ScheduleService {
     }
     @Transactional(readOnly = true)
     public ScheduleListResponse getSchedules(LocalDate startDate, LocalDate endDate, Integer grade, Integer classNo) {
-        LocalDateTime startDateTime = startDate.atStartOfDay();
-        LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
 
         List<Schedule> schedules = scheduleRepository.searchSchedules(startDate, endDate, grade, classNo);
 
