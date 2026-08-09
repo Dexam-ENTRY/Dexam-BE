@@ -16,11 +16,11 @@ public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    @PostMapping("/api/admin/schedules")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Long createSchedule(@RequestBody ScheduleCreateRequest request) {
-        return scheduleService.createSchedule(request);
-    }
+@PostMapping("/api/admin/schedules")
+@ResponseStatus(HttpStatus.CREATED)
+public ApiResponse<Long> createSchedule(@RequestBody ScheduleCreateRequest request) {
+    return ApiResponse.ok(scheduleService.createSchedule(request));
+}
 
     @PutMapping("/api/admin/schedules/{scheduleId}")
     public ApiResponse<Void> updateSchedule(
