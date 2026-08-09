@@ -41,4 +41,10 @@ public class ScheduleService {
                 request.classNo()
         );
     }
+    @Transactional
+    public void deleteSchedule(Long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> ScheduleNotFoundException.EXCEPTION);
+        scheduleRepository.delete(schedule);
+    }
 }

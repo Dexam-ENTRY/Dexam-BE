@@ -29,4 +29,9 @@ public class ScheduleController {
         scheduleService.updateSchedule(scheduleId, request);
         return ApiResponse.ok();
     }
+    @DeleteMapping("/{scheduleId}")
+    public ApiResponse<Void> deleteSchedule(@PathVariable Long scheduleId) {
+        scheduleService.deleteSchedule(scheduleId);
+        return ApiResponse.ok();
+    }
 }
