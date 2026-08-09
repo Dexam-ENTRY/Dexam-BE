@@ -10,7 +10,6 @@ import com.entry.dexam.domain.evaluation.enums.EvaluationType;
 import com.entry.dexam.domain.evaluation.repository.EvaluationRepository;
 import com.entry.dexam.global.exception.exceptions.PerformanceAccessDeniedException;
 import com.entry.dexam.global.exception.exceptions.PerformanceNotFoundException;
-import com.entry.dexam.global.exception.exceptions.UnauthorizedException;
 import com.entry.dexam.global.exception.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
