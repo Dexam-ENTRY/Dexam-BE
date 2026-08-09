@@ -1,4 +1,4 @@
-package com.entry.dexam.domain.schedule;
+package com.entry.dexam.domain.schedule.repository;
 
 import com.entry.dexam.domain.schedule.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
