@@ -12,18 +12,17 @@ import java.time.LocalDate;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/admin/schedules")
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    @PostMapping
+    @PostMapping("/api/admin/schedules")
     @ResponseStatus(HttpStatus.CREATED)
     public Long createSchedule(@RequestBody ScheduleCreateRequest request) {
         return scheduleService.createSchedule(request);
     }
 
-    @PutMapping("/{scheduleId}")
+    @PutMapping("/api/admin/schedules/{scheduleId}")
     public ApiResponse<Void> updateSchedule(
             @PathVariable Long scheduleId,
             @RequestBody ScheduleUpdateRequest request
@@ -31,12 +30,12 @@ public class ScheduleController {
         scheduleService.updateSchedule(scheduleId, request);
         return ApiResponse.ok();
     }
-    @DeleteMapping("/{scheduleId}")
+    @DeleteMapping("/api/admin/schedules/{scheduleId}")
     public ApiResponse<Void> deleteSchedule(@PathVariable Long scheduleId) {
         scheduleService.deleteSchedule(scheduleId);
         return ApiResponse.ok();
     }
-    @GetMapping
+    @GetMapping("/api/schedules")
     public ApiResponse<ScheduleListResponse> getSchedules(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
