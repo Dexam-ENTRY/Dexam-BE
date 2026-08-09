@@ -32,27 +32,33 @@ public class Schedule extends BaseEntity {
     @Column(name = "target", nullable = false)
     private String target;
 
-    @Column(name = "grade")
+    @Column(name = "target_grade")
+    private Integer targetGrade;
+
+    @Column(name = "target_class_no")
+    private Integer targetClassNo;
+
+    @Column
     private Integer grade;
 
-    @Column(name = "class_no")
+    @Column
     private Integer classNo;
 
     @Builder
-    public Schedule(String title, String content, LocalDate date, String target, Integer grade, Integer classNo) {
+    public Schedule(String title, String content, LocalDate date, String target, Integer targetGrade, Integer targetClassNo) {
         this.title = title;
         this.content = content;
         this.date = date;
         this.target = target;
-        this.grade = grade;
-        this.classNo = classNo;
+        this.targetGrade = targetGrade;
+        this.targetClassNo = targetClassNo;
     }
-    public void update(String title, String content, LocalDate date, String target, Integer grade, Integer classNo) {
+    public void update(String title, String content, LocalDate date, String target, Integer targetGrade, Integer targetClassNo) {
         this.title = title;
         this.content = content;
         this.date = date;
         this.target = target;
-        this.grade = grade;
-        this.classNo = classNo;
+        this.targetGrade = targetGrade;
+        this.targetClassNo = targetClassNo;
     }
 }

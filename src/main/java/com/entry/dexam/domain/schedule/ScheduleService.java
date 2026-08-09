@@ -1,11 +1,18 @@
 package com.entry.dexam.domain.schedule;
 
 import com.entry.dexam.domain.schedule.dto.ScheduleCreateRequest;
+import com.entry.dexam.domain.schedule.dto.ScheduleItemResponse;
+import com.entry.dexam.domain.schedule.dto.ScheduleListResponse;
 import com.entry.dexam.domain.schedule.dto.ScheduleUpdateRequest;
 import com.entry.dexam.global.exception.exceptions.ScheduleNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.entry.dexam.domain.schedule.repository.ScheduleRepository;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +27,8 @@ public class ScheduleService {
                 .content(request.getContent())
                 .date(request.getDate())
                 .target(request.getTarget())
-                .grade(request.getGrade())
-                .classNo(request.getClassNo())
+                .targetGrade(request.getTargetGrade())
+                .targetClassNo(request.getTargetClassNo())
                 .build();
 
         Schedule savedSchedule = scheduleRepository.save(schedule);
@@ -37,8 +44,8 @@ public class ScheduleService {
                 request.content(),
                 request.date(),
                 request.target(),
-                request.grade(),
-                request.classNo()
+                request.targetGrade(),
+                request.targetClassNo()
         );
     }
     @Transactional
@@ -46,5 +53,18 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> ScheduleNotFoundException.EXCEPTION);
         scheduleRepository.delete(schedule);
+    }
+    @Transactional(readOnly = true)
+    public ScheduleListResponse getSchedules(LocalDate startDate, LocalDate endDate, Integer grade, Integer classNo) {
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+        LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
+
+        List<Schedule> schedules = scheduleRepository.searchSchedules(startDate, endDate, grade, classNo);
+
+        List<ScheduleItemResponse> items = schedules.stream()
+                .map(ScheduleItemResponse::from)
+                .toList();
+
+        return new ScheduleListResponse(items);
     }
 }

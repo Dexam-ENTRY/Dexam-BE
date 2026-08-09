@@ -7,7 +7,7 @@ public record ScheduleUpdateRequest(
         String content,
         LocalDate date,
         String target,
-        Integer grade,
-        Integer classNo
+        Integer targetGrade,
+        Integer targetClassNo
 ) {
 }

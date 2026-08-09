@@ -15,6 +15,6 @@ public class ScheduleCreateRequest {
     private LocalDate date;
 
     private String target;
-    private Integer grade; //target이 ALL일경우 Null
-    private Integer classNo; //target이 ALL 또는 GRADE일 경우 Null
+    private Integer targetGrade; //target이 ALL일경우 Null
+    private Integer targetClassNo; //target이 ALL 또는 GRADE일 경우 Null
 }
