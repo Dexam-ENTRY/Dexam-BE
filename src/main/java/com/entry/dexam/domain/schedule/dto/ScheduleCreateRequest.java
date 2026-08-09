@@ -18,3 +18,4 @@ public class ScheduleCreateRequest {
     private Integer targetGrade; //target이 ALL일경우 Null
     private Integer targetClassNo; //target이 ALL 또는 GRADE일 경우 Null
 }
+
