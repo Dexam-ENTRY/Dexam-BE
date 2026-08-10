@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
     @Query("""
@@ -25,5 +26,26 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
             @Param("start") LocalDate start,
             @Param("end") LocalDate end,
             @Param("type") EvaluationType type
+    );
+
+    Optional<Evaluation> findByIdAndType(Long performanceId, EvaluationType type);
+
+    @Query("""
+        select e
+        from Evaluation e
+        where e.classInfo.classId.grade = :grade
+            and e.classInfo.classId.classNum = :classNum
+            and e.type = :type
+            and (:keyword is null
+                or e.title like concat('%', :keyword, '%')
+                or e.content like concat('%', :keyword, '%') )
+            order by e.createdAt desc 
+                
+    """)
+    List<Evaluation> searchEvaluations(
+            @Param("grade") int grade,
+            @Param("classNum") int classNum,
+            @Param("type") EvaluationType type,
+            @Param("keyword") String keyword
     );
 }
