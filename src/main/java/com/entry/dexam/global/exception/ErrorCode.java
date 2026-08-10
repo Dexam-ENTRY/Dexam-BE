@@ -16,6 +16,7 @@ public enum ErrorCode {
 	FORBIDDEN(403, "FORBIDDEN", "권한이 없습니다."),
 	NOTICE_WRITE_FORBIDDEN(403, "NOTICE_WRITE_FORBIDDEN", "공지 작성/수정 권한이 없습니다."),
 	ADMIN_NOT_CHANGE_CLASS(403, "ADMIN_NOT_CHANGE_CLASS", "반 관리자는 반 수정이 불가능합니다. 관리자에게 문의하여 주세요."),
+	PERFORMANCE_ACCESS_DENIED(403, "PERFORMANCE_ACCESS_DENIED", "수행평가 접근 권한이 없습니다."),
 
 	NOT_FOUND(404, "NOT_FOUND", "리소스를 찾을 수 없습니다."),
 	EXAM_RANGE_NOT_FOUND(404, "EXAM_RANGE_NOT_FOUND", "출제 범위를 찾을 수 없습니다."),
@@ -24,6 +25,7 @@ public enum ErrorCode {
 	TOKEN_NOT_FOUND(404, "TOKEN_NOT_FOUND", "토큰을 찾을 수 없습니다."),
 	NOTICE_NOT_FOUND(404, "NOTICE_NOT_FOUND", "공지를 찾을 수 없습니다."),
 	EVALUATION_NOT_FOUND(404, "EVALUATION_NOT_FOUND", "평가를 찾을 수 없습니다."),
+	PERFORMANCE_NOT_FOUND(404, "PERFORMANCE_NOT_FOUND", "수행평가를 찾을 수 없습니다."),
 
 	INTERNAL_SERVER_ERR(500, "INTERNAL_SERVER_ERR", "서버 측 오류가 발생했습니다.");
 	
