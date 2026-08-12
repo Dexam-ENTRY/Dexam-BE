@@ -24,7 +24,10 @@ public class Notice extends BaseEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "class_id")
+    @JoinColumns({
+            @JoinColumn(name = "grade", referencedColumnName = "grade", nullable = true),
+            @JoinColumn(name = "class_num", referencedColumnName = "class_num", nullable = true)
+    })
     private ClassInfo classInfo;
 
     @Column(nullable = false)
