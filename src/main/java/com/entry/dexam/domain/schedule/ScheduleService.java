@@ -1,10 +1,14 @@
 package com.entry.dexam.domain.schedule;
 
+import com.entry.dexam.domain.auth.entity.ClassInfo;
+import com.entry.dexam.domain.auth.entity.User;
+import com.entry.dexam.domain.auth.repository.UserRepository;
 import com.entry.dexam.domain.schedule.dto.ScheduleCreateRequest;
 import com.entry.dexam.domain.schedule.dto.ScheduleItemResponse;
 import com.entry.dexam.domain.schedule.dto.ScheduleListResponse;
 import com.entry.dexam.domain.schedule.dto.ScheduleUpdateRequest;
 import com.entry.dexam.global.exception.exceptions.ScheduleNotFoundException;
+import com.entry.dexam.global.exception.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +21,7 @@ import java.util.List;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public Long createSchedule(ScheduleCreateRequest request) {
@@ -53,7 +58,12 @@ public class ScheduleService {
         scheduleRepository.delete(schedule);
     }
     @Transactional(readOnly = true)
-    public ScheduleListResponse getSchedules(LocalDate startDate, LocalDate endDate, Integer grade, Integer classNo) {
+    public ScheduleListResponse getSchedules(LocalDate startDate, LocalDate endDate, Integer grade, Integer classNo, Long userId) {
+
+        User user = userRepository.findByIdWithClassInfo(userId)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        ClassInfo classInfo = user.getClassInfo();
 
         List<Schedule> schedules = scheduleRepository.searchSchedules(startDate, endDate, grade, classNo);
 

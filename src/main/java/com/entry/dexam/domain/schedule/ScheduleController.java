@@ -23,7 +23,6 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
-    private final UserRepository userRepository;
 
     @PostMapping("/api/admin/schedules")
     @ResponseStatus(HttpStatus.CREATED)
@@ -49,9 +48,10 @@ public class ScheduleController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @RequestParam(required = false) Integer grade,
-            @RequestParam(name = "class", required = false) Integer classNo
+            @RequestParam(name = "class", required = false) Integer classNo,
+            @Parameter(hidden = true) @CurrentUserId Long userId
     ) {
-        ScheduleListResponse response = scheduleService.getSchedules(startDate, endDate, grade, classNo);
+        ScheduleListResponse response = scheduleService.getSchedules(startDate, endDate, grade, classNo, userId);
         return ApiResponse.ok(response);
     }
 
@@ -59,12 +59,9 @@ public class ScheduleController {
     public ApiResponse<ScheduleListResponse> getAdminSchedules(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
-            User user = userRepository.findByIdWithClassInfo(id)
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
-
-            ClassInfo classInfo = user.getClassInfo();
+            @Parameter(hidden = true) @CurrentUserId Long userId
     ) {
-        ScheduleListResponse response = scheduleService.getSchedules(startDate, endDate, , );
+        ScheduleListResponse response = scheduleService.getSchedules(startDate, endDate, , userId);
         return ApiResponse.ok(response);
     }
 }
