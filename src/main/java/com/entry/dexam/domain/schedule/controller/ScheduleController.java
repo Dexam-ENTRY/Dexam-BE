@@ -13,19 +13,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
-@RestController
+@RestController("/api")
 @RequiredArgsConstructor
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
-    @PostMapping("/api/admin/schedules")
+    @PostMapping("/admin/schedules")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<Long> createSchedule(@RequestBody ScheduleCreateRequest request) {
         return ApiResponse.ok(scheduleService.createSchedule(request));
     }
 
-    @PutMapping("/api/admin/schedules/{scheduleId}")
+    @PutMapping("/admin/schedules/{scheduleId}")
     public ApiResponse<Void> updateSchedule(
             @PathVariable Long scheduleId,
             @RequestBody ScheduleUpdateRequest request
@@ -33,12 +33,12 @@ public class ScheduleController {
         scheduleService.updateSchedule(scheduleId, request);
         return ApiResponse.ok();
     }
-    @DeleteMapping("/api/admin/schedules/{scheduleId}")
+    @DeleteMapping("/admin/schedules/{scheduleId}")
     public ApiResponse<Void> deleteSchedule(@PathVariable Long scheduleId) {
         scheduleService.deleteSchedule(scheduleId);
         return ApiResponse.ok();
     }
-    @GetMapping("/api/admin/schedules")
+    @GetMapping("/admin/schedules")
     public ApiResponse<ScheduleListResponse> getSchedules(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
@@ -50,7 +50,7 @@ public class ScheduleController {
         return ApiResponse.ok(response);
     }
 
-    @GetMapping("/api/schedules")
+    @GetMapping("/schedules")
     public ApiResponse<ScheduleListResponse> getAdminSchedules(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
