@@ -14,7 +14,7 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
             "(:startDate IS NULL OR s.date >= :startDate) AND " +
             "(:endDate IS NULL OR s.date <= :endDate) AND " +
             "(:grade IS NULL OR s.targetGrade IS NULL OR s.targetGrade = :grade) AND " +
-            "(:classNo IS NULL OR s.targetGrade IS NULL OR s.targetClassNo = :classNo) " +
+            "(:classNo IS NULL OR s.targetClassNo IS NULL OR s.targetClassNo = :classNo) " +
             "ORDER BY s.date ASC")
     List<Schedule> searchAdminSchedules(
             @Param("startDate") LocalDate startDate,
