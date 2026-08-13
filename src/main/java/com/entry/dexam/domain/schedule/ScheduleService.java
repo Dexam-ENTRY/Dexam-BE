@@ -25,17 +25,7 @@ public class ScheduleService {
 
     @Transactional
     public Long createSchedule(ScheduleCreateRequest request) {
-        Schedule schedule = Schedule.builder()
-                .title(request.getTitle())
-                .content(request.getContent())
-                .date(request.getDate())
-                .target(request.getTarget())
-                .targetGrade(request.getTargetGrade())
-                .targetClassNo(request.getTargetClassNo())
-                .build();
-
-        Schedule savedSchedule = scheduleRepository.save(schedule);
-        return savedSchedule.getId();
+        return scheduleRepository.save(request.toEntity()).getId();
     }
     @Transactional
     public void updateSchedule(Long scheduleId, ScheduleUpdateRequest request) {
@@ -58,14 +48,24 @@ public class ScheduleService {
         scheduleRepository.delete(schedule);
     }
     @Transactional(readOnly = true)
-    public ScheduleListResponse getSchedules(LocalDate startDate, LocalDate endDate, Integer grade, Integer classNo, Long userId) {
+    public ScheduleListResponse getAdminSchedules(LocalDate startDate, LocalDate endDate, Integer grade, Integer classNo, Long userId) {
+        List<Schedule> schedules = scheduleRepository.searchAdminSchedules(startDate, endDate, grade, classNo);
+
+        List<ScheduleItemResponse> items = schedules.stream()
+                .map(ScheduleItemResponse::from)
+                .toList();
+
+        return new ScheduleListResponse(items);
+    }
+    @Transactional(readOnly = true)
+    public ScheduleListResponse getSchedules(LocalDate startDate, LocalDate endDate, Long userId) {
 
         User user = userRepository.findByIdWithClassInfo(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         ClassInfo classInfo = user.getClassInfo();
 
-        List<Schedule> schedules = scheduleRepository.searchSchedules(startDate, endDate, grade, classNo);
+        List<Schedule> schedules = scheduleRepository.searchSchedules(startDate, endDate, classInfo.getClassId().getGrade(), classInfo.getClassId().getClassNum());
 
         List<ScheduleItemResponse> items = schedules.stream()
                 .map(ScheduleItemResponse::from)

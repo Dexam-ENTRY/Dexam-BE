@@ -1,13 +1,12 @@
 package com.entry.dexam.domain.schedule.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 import java.util.List;
 
-@Getter
-@AllArgsConstructor
-public class ScheduleListResponse {
-
-    private List<ScheduleItemResponse> items;
+public record ScheduleListResponse(
+        List<ScheduleItemResponse> items
+) {
+    // 선택 사항: 생성 편의를 위한 static factory 메서드
+    public static ScheduleListResponse from(List<ScheduleItemResponse> items) {
+        return new ScheduleListResponse(items);
+    }
 }

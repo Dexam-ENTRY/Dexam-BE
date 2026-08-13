@@ -51,7 +51,7 @@ public class ScheduleController {
             @RequestParam(name = "class", required = false) Integer classNo,
             @Parameter(hidden = true) @CurrentUserId Long userId
     ) {
-        ScheduleListResponse response = scheduleService.getSchedules(startDate, endDate, grade, classNo, userId);
+        ScheduleListResponse response = scheduleService.getAdminSchedules(startDate, endDate, grade, classNo, userId);
         return ApiResponse.ok(response);
     }
 
@@ -61,7 +61,7 @@ public class ScheduleController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
             @Parameter(hidden = true) @CurrentUserId Long userId
     ) {
-        ScheduleListResponse response = scheduleService.getSchedules(startDate, endDate, , userId);
+        ScheduleListResponse response = scheduleService.getSchedules(startDate, endDate, userId);
         return ApiResponse.ok(response);
     }
 }
