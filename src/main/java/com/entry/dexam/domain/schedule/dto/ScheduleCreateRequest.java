@@ -2,11 +2,15 @@ package com.entry.dexam.domain.schedule.dto;
 
 import com.entry.dexam.domain.schedule.Schedule;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
+
 import java.time.LocalDate;
 
 public record ScheduleCreateRequest (
 
+    @NotBlank
     String title,
+    @NotBlank
     String content,
     @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDate date,

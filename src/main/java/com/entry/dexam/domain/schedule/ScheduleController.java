@@ -1,22 +1,16 @@
 package com.entry.dexam.domain.schedule;
 
-import com.entry.dexam.domain.auth.entity.ClassInfo;
-import com.entry.dexam.domain.auth.entity.User;
-import com.entry.dexam.domain.auth.repository.UserRepository;
 import com.entry.dexam.domain.schedule.dto.ScheduleCreateRequest;
 import com.entry.dexam.domain.schedule.dto.ScheduleListResponse;
 import com.entry.dexam.domain.schedule.dto.ScheduleUpdateRequest;
 import com.entry.dexam.global.annotations.CurrentUserId.CurrentUserId;
 import com.entry.dexam.global.dto.ApiResponse;
-import com.entry.dexam.global.exception.exceptions.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
 @RequiredArgsConstructor

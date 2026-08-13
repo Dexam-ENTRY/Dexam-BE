@@ -23,7 +23,7 @@ public class JpaConfig {
                 return Optional.empty();
             }
 
-            // 현재 로그인된 사용자 이메일 반환
+            // 현재 로그인된 사용자 아이디 반환
             return Optional.ofNullable(authentication.getName());
         };
     }
