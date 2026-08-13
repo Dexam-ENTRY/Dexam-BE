@@ -1,6 +1,6 @@
 package com.entry.dexam.domain.schedule.repository;
 
-import com.entry.dexam.domain.schedule.Schedule;
+import com.entry.dexam.domain.schedule.entity.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

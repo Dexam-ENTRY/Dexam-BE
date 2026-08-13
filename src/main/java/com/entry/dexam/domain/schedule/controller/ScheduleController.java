@@ -1,8 +1,9 @@
-package com.entry.dexam.domain.schedule;
+package com.entry.dexam.domain.schedule.controller;
 
-import com.entry.dexam.domain.schedule.dto.ScheduleCreateRequest;
-import com.entry.dexam.domain.schedule.dto.ScheduleListResponse;
-import com.entry.dexam.domain.schedule.dto.ScheduleUpdateRequest;
+import com.entry.dexam.domain.schedule.dto.request.ScheduleCreateRequest;
+import com.entry.dexam.domain.schedule.dto.response.ScheduleListResponse;
+import com.entry.dexam.domain.schedule.dto.request.ScheduleUpdateRequest;
+import com.entry.dexam.domain.schedule.service.ScheduleService;
 import com.entry.dexam.global.annotations.CurrentUserId.CurrentUserId;
 import com.entry.dexam.global.dto.ApiResponse;
 import io.swagger.v3.oas.annotations.Parameter;

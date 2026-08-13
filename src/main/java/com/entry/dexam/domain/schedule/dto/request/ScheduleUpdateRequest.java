@@ -1,4 +1,4 @@
-package com.entry.dexam.domain.schedule.dto;
+package com.entry.dexam.domain.schedule.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 

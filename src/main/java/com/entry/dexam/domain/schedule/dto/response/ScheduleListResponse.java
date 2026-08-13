@@ -1,4 +1,4 @@
-package com.entry.dexam.domain.schedule.dto;
+package com.entry.dexam.domain.schedule.dto.response;
 
 import java.util.List;
 

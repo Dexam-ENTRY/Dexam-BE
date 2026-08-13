@@ -1,6 +1,6 @@
-package com.entry.dexam.domain.schedule.dto;
+package com.entry.dexam.domain.schedule.dto.request;
 
-import com.entry.dexam.domain.schedule.Schedule;
+import com.entry.dexam.domain.schedule.entity.Schedule;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 

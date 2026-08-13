@@ -1,12 +1,13 @@
-package com.entry.dexam.domain.schedule;
+package com.entry.dexam.domain.schedule.service;
 
 import com.entry.dexam.domain.auth.entity.ClassInfo;
 import com.entry.dexam.domain.auth.entity.User;
 import com.entry.dexam.domain.auth.repository.UserRepository;
-import com.entry.dexam.domain.schedule.dto.ScheduleCreateRequest;
-import com.entry.dexam.domain.schedule.dto.ScheduleItemResponse;
-import com.entry.dexam.domain.schedule.dto.ScheduleListResponse;
-import com.entry.dexam.domain.schedule.dto.ScheduleUpdateRequest;
+import com.entry.dexam.domain.schedule.entity.Schedule;
+import com.entry.dexam.domain.schedule.dto.request.ScheduleCreateRequest;
+import com.entry.dexam.domain.schedule.dto.response.ScheduleItemResponse;
+import com.entry.dexam.domain.schedule.dto.response.ScheduleListResponse;
+import com.entry.dexam.domain.schedule.dto.request.ScheduleUpdateRequest;
 import com.entry.dexam.global.exception.exceptions.ScheduleNotFoundException;
 import com.entry.dexam.global.exception.exceptions.UserNotFoundException;
 import lombok.RequiredArgsConstructor;

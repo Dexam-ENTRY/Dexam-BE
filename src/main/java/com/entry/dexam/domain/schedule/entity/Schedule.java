@@ -1,4 +1,4 @@
-package com.entry.dexam.domain.schedule;
+package com.entry.dexam.domain.schedule.entity;
 
 import com.entry.dexam.global.entity.BaseEntity;
 import jakarta.persistence.*;

@@ -1,6 +1,6 @@
-package com.entry.dexam.domain.schedule.dto;
+package com.entry.dexam.domain.schedule.dto.response;
 
-import com.entry.dexam.domain.schedule.Schedule;
+import com.entry.dexam.domain.schedule.entity.Schedule;
 
 import java.time.LocalDate;
 
