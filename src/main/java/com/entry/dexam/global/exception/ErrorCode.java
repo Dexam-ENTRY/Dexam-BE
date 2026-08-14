@@ -25,10 +25,10 @@ public enum ErrorCode {
 	TOKEN_NOT_FOUND(404, "TOKEN_NOT_FOUND", "토큰을 찾을 수 없습니다."),
 	NOTICE_NOT_FOUND(404, "NOTICE_NOT_FOUND", "공지를 찾을 수 없습니다."),
 	EVALUATION_NOT_FOUND(404, "EVALUATION_NOT_FOUND", "평가를 찾을 수 없습니다."),
+	SCHEDULE_NOT_FOUND(404, "SCHEDULE_NOT_FOUND", "일정을 찾을 수 없습니다."),
 	PERFORMANCE_NOT_FOUND(404, "PERFORMANCE_NOT_FOUND", "수행평가를 찾을 수 없습니다."),
 
 	INTERNAL_SERVER_ERR(500, "INTERNAL_SERVER_ERR", "서버 측 오류가 발생했습니다.");
-	
 	private Integer statusCode;
 	private String errorCode;
     private String errorMessage;

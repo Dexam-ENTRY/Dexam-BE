@@ -1,0 +1,1 @@
+GET http://localhost:8080/api/schedules?startDate=2026-07-01&endDate=2026-07-31&grade=1
