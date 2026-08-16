@@ -39,7 +39,7 @@ public class AuthService {
         ClassInfo classInfo = classInfoRepository.findById(classId)
                 .orElseThrow(() -> ClassNotFoundException.EXCEPTION);
 
-        user.setClass(classInfo);
+        user.assignClass(classInfo);
     }
 
     public MeResponse getMe(Long id) {
