@@ -48,4 +48,21 @@ public interface EvaluationRepository extends JpaRepository<Evaluation, Long> {
             @Param("type") EvaluationType type,
             @Param("keyword") String keyword
     );
+    @Query("""
+        select e
+        from Evaluation e
+        where e.classInfo.classId.grade = :grade
+          and e.classInfo.classId.classNum = :classNum
+          and e.type = :type
+          and (:startDate is null or e.date >= :startDate)
+          and (:endDate is null or e.date <= :endDate)
+        order by e.date asc
+    """)
+    List<Evaluation> searchExams(
+            @Param("grade") int grade,
+            @Param("classNum") int classNum,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate,
+            @Param("type") EvaluationType type
+    );
 }
