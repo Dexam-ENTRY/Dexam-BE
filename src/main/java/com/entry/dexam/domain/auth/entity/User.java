@@ -7,10 +7,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -57,8 +53,11 @@ public class User extends BaseEntity {
         return this;
     }
 
-    public User setClass(ClassInfo classInfo) {
+    public void assignClass(ClassInfo classInfo) {
         this.classInfo = classInfo;
-        return this;
+    }
+
+    public void assignRole(Role role) {
+        this.role = role;
     }
 }
