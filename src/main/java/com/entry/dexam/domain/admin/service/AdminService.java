@@ -9,11 +9,13 @@ import com.entry.dexam.domain.auth.repository.ClassInfoRepository;
 import com.entry.dexam.domain.auth.repository.UserRepository;
 import com.entry.dexam.global.exception.exceptions.ClassNotFoundException;
 import com.entry.dexam.global.exception.exceptions.UserNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AdminService {
 
     private final UserRepository userRepository;
